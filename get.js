@@ -2,6 +2,40 @@
 
 var get = {};
 
+//::String->Hashmap
+get.map = function(table_name, field) {
+  var res, xs, m, offset, headers, ys, table_name, fields, fetch_attempt, res_map;
+  fetch_attempt = fetch.all({table_name : table_name, fields : [field]});
+  if (fetch_attempt.right) {
+    xs = fetch_attempt.right;
+    ys = xs.map(function(x) { return _.extend({}, x.fields, _.pick(x, 'id'));});
+    res_map = vh_to_h(ys, 'id', field);
+    return {right : res_map};
+  } else {
+    return fetch_attempt;
+  }
+};
+
+get.clients_map = function() {return get.map('CLIENTS', 'Client');};
+
+get.cm_map = function() {return get.map('CM', '🔹ARTICLE TITLE');};
+
+//::IO()->Either Error [Record]
+get.om_table = function() {
+  var table_name, fields, formula, xs, ys, fetch_attempt;
+  table_name = 'OM';
+  fields = ['STATUS 1', 'Import Date'].concat(FIELDS);
+  formula = "{STATUS 1} = 'Published'";
+  fetch_attempt = fetch.all({table_name : table_name, fields : fields, formula : formula});
+  if (fetch_attempt.right) {
+    xs = fetch_attempt.right;
+    ys = xs.map(function(x) { return _.extend({}, x.fields, _.pick(x, 'id'));});
+    return {right : ys};
+  } else {
+    return fetch_attempt;
+  }
+};
+
 //GFolder->[Spreadsheet]
 get.spreadsheets = function(folder, batch_size) {
   var file_iter, res, file, counter, cont;
