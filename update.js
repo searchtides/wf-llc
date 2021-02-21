@@ -38,7 +38,8 @@ update.aggregated_data = function(sheet) {
     xs = attempts[2].right;
     ys = replace.ids_with_values(xs, cm_map, clients_map);
     ssa.put_vh(sheet, ys);
+    return {right : ys.length};
   } else {
-    clog('Error getting data from airtable');
+    return {left : 'Error getting data from airtable'};
   }
 };
