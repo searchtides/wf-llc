@@ -2,6 +2,21 @@
 
 var get = {};
 
+get.workbooks_map = function(sheet) {
+  var m, res;
+  sheet = sheet || get.sheet('workbooks map');
+  m = sheet.getDataRange().getValues();
+  res = {};
+  m.forEach(function(r) {
+    var ss_url;
+    ss_url = r[1];
+    if (/https:\/\/docs.google.com\/spreadsheets/.test(ss_url)) {
+      res[r[0]] = r[1];
+    }
+  });
+  return res;
+};
+
 //::String->Hashmap
 get.map = function(table_name, field) {
   var res, xs, m, offset, headers, ys, table_name, fields, fetch_attempt, res_map;

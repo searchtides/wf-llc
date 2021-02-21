@@ -1,4 +1,20 @@
 _ = Underscore.load();
+
+FIELDS_MAP = {
+  'DOMAIN' : 'Domain',
+  '🔹TARGET URL (from AP Link)' : 'Target URL',
+  'Anchor Text' : 'Anchor Text',
+  'LIVE LINK' : 'Live Article URL',
+  'DR' : 'DR',
+  'CM' : 'Title',
+  'Industry' : 'Domain Main Topic',
+  'IP Address' : 'IP Address',
+  'IP Location' : 'IP Location',
+  'DF / NF' : 'Follow/NoFollow',
+  'Live Link Date' : 'Date',
+  'CLIENT*' : 'Client'
+};
+
 FIELDS = [
   'DOMAIN',
   '🔹TARGET URL (from AP Link)',
