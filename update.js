@@ -1,22 +1,22 @@
 var update = {};
 
 update.workbooks = function() {
-  var w_map, client, xs, ys, ss, sheet, zs, year, range, formats;
-  year = new Date().getFullYear();
+  var w_map, client, xs, ys, ss, sheet, zs, sheet_name, range, formats;
+  sheet_name = 'imported';
   w_map = get.workbooks_map();
   xs = ssa.get_vh(get.sheet('aggregated data'));
   ys = xs.map(transform.to_workbook_record);
   for (client in w_map) {
     try {
       ss = SpreadsheetApp.openByUrl(w_map[client]);
-      sheet = ss.getSheetByName(year);
+      sheet = ss.getSheetByName(sheet_name);
       if (sheet == null) {
-        sheet = ss.insertSheet(year.toString());
+        sheet = ss.insertSheet(sheet_name);
         range = get.sheet('template').getDataRange();
         formats = get.formats(range);
         apply.formats(sheet, 1, 1, formats);
       }
-      zs = ys.filter(function(y) {return y['Client'] == client && y['Year'] == year;});
+      zs = ys.filter(function(y) {return y['Client'] == client;});
       ssa.put_vh(sheet, zs);
     } catch (e) {
       log('not able to open ' + client + ' spreadsheet with the link: ' + w_map[client], 1);
