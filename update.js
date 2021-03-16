@@ -2,7 +2,7 @@ var update = {};
 
 update.workbooks = function() {
   var w_map, client, xs, ys, ss, sheet, zs, sheet_name, range, formats;
-  sheet_name = 'imported';
+  sheet_name = 'Live Links';
   w_map = get.workbooks_map();
   xs = ssa.get_vh(get.sheet('normalized'));
   ys = xs.map(transform.to_workbook_record);
