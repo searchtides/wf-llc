@@ -1,7 +1,7 @@
 var update = {};
 
 update.workbooks = function() {
-  var w_map, client, xs, ys, ss, sheet, zs, sheet_name, range, formats;
+  var w_map, client, xs, ys, ss, sheet, zs, sheet_name, range, formats, archive_sheet, archive;
   sheet_name = 'Live Links';
   w_map = get.workbooks_map();
   xs = ssa.get_vh(get.sheet('normalized'));
@@ -17,6 +17,12 @@ update.workbooks = function() {
         apply.formats(sheet, 1, 1, formats);
       }
       zs = ys.filter(function(y) {return y['Client'] == client;});
+      archive_sheet = ss.getSheetByName('archive');
+      if (archive_sheet) {
+        archive = ssa.get_vh(archive_sheet);
+      }
+      //TODO - normalize archive
+      //TODO - combine new data with archive
       ssa.put_vh(sheet, zs);
     } catch (e) {
       log('not able to open ' + client + ' spreadsheet with the link: ' + w_map[client], 1);
