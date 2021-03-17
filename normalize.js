@@ -17,6 +17,11 @@ normalize.archive = function(archive) {
     jUnit.assert_true(_.isNumber(month) && month >= 1 && month <= 12);
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Баррикады!!!////Баррикады!!!//Баррикады!!!//Баррикады!!!//Баррикады!!!//Баррикады!!!//Баррикады!!!//Баррикады!!!
+    var date = new Date();
+    date.setYear(ar['Year']);
+    date.setMonth(month - 1);
+    date.setDate(ar['Day']);
+    ar['Live Link Date'] = J_I(date);
     return ar;
   });
 };

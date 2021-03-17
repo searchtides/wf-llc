@@ -1,5 +1,5 @@
 function normalize_module_tests() {
-  return;
+  return test_normalize_archive();
 }
 
 function test_normalize_archive() {
