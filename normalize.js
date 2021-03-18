@@ -1,5 +1,18 @@
 var normalize = {};
 
+normalize.valid = function(raw) {
+  raw.forEach(function(x) {
+    var fields;
+    fields = keys(x);
+    fields.forEach(function(field) {
+      if (typeof x[field] == 'string') {
+        x[field] = x[field].trim();
+      }
+    });
+  });
+  return raw;
+};
+
 normalize.archive = function(archive) {
   return archive.map(function(ar) {
     ar['IP Location'] = ar['IP Location'].trim();
@@ -21,7 +34,7 @@ normalize.archive = function(archive) {
     date.setYear(ar['Year']);
     date.setMonth(month - 1);
     date.setDate(ar['Day']);
-    ar['Live Link Date'] = J_I(date);
+    ar['Date'] = J_I(date);
     return ar;
   });
 };

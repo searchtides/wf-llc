@@ -1,5 +1,14 @@
 //utils 0.4.0
 
+sorter_maker = function(p) {
+  return function(x, y) {
+    var a, b;
+    a = x[p] > y[p];
+    b = x[p] < y[p];
+    return a ? -1 : b ? 1 : 0;
+  };
+};
+
 //::AdjacencyMatrix->AdjacencyList
 function convertToAdjList(adjMatrix) {
   return adjMatrix.map(

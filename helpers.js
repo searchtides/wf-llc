@@ -1,26 +1,11 @@
-
 function normalize_valid() {
   var sheet, xs, dest_sheet, ys;
   sheet = get.sheet('valid');
   xs = ssa.get_vh(sheet);
-  xs.forEach(function(x) {
-    var fields;
-    fields = keys(x);
-    fields.forEach(function(field) {
-      if (typeof x[field] == 'string') {
-        x[field] = x[field].trim();
-      }
-    });
-  });
-  ys = xs.sort(function(x, y) {
-    var a, b, p;
-    p = 'Live Link Date';
-    a = x[p] > y[p];
-    b = x[p] < y[p];
-    return a ? -1 : b ? 1 : 0;
-  });
+  ys = normalize.valid(xs);
   dest_sheet = get.sheet('normalized');
   ssa.put_vh(dest_sheet, ys);
+  return ys;
 }
 
 function validate_master_data() {
