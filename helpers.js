@@ -4,23 +4,18 @@ function validate_master_data() {
   xs = ssa.get_vh(get.sheet('aggregated data'));
   invalid = _.filter(xs, invalid_predicate);
   valid = _.reject(xs, invalid_predicate);
-  valid.forEach(function(x) {jUnit.assert_true(x['IP Location'].indexOf('Transaction') == -1);});
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //Barricades!!!////Barricades!!!//Barricades!!!//Barricades!!!//Barricades!!!//Barricades!!!//Barricades!!!
   total_q = xs.length;
   valid_q = valid.length;
   invalid_q = invalid.length;
+  valid.forEach(function(x) {jUnit.assert_true(x['IP Location'].indexOf('Transaction') == -1);});
   jUnit.assert_true(xs.length == valid.length + invalid.length);
-  //This must pass. In other way, something strange happenning in the Universe
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //Barricades!!!////Barricades!!!//Barricades!!!//Barricades!!!//Barricades!!!//Barricades!!!//Barricades!!!
   var archive_valid = Number(sp.get('total_archive_valid'));
   var archive_invalid = Number(sp.get('total_archive_invalid'));
   var q_matrix = [[valid_q, invalid_q, 'om'],[archive_valid, archive_invalid, 'archive']];
-  var res2 = gen_report(q_matrix);
-  clog('res2: ');
-  clog(res2);
-  //MailApp.sendEmail(config.report_to, 'OM records validation result for ' + J_I(new Date()), res2);
+  res = gen_report(q_matrix);
+  MailApp.sendEmail(config.report_to, 'OM records validation result for ' + J_I(new Date()), res);
   sheet_for_invalid_data = get.sheet('invalid');
   ssa.put_vh(sheet_for_invalid_data, invalid);
   var sheet_for_valid_data = get.sheet('valid');
