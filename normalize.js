@@ -40,9 +40,8 @@ normalize.valid = function(raw) {
 };
 
 normalize.archive = function(archive) {
-  var xs, ys;
+  var xs;
   xs = _.reject(archive, invalid_predicate);
-  ys = _.filter(archive, invalid_predicate);
   return xs.map(function(ar) {
     ar['IP Location'] = ar['IP Location'].trim();
     if (ar['Follow/NoFollow'] == 'F') {ar['Follow/NoFollow'] = 'Do-Follow';}
