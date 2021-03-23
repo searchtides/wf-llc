@@ -13,19 +13,6 @@ function test_update_workbooks() {
   });
 }
 
-function test_update_special() {
-  return jUnit.test_case('', {
-    'test gentle data updating' : function() {
-      var source_sheet, delta, short_invalid;
-      source_sheet = tt.ds('0.8');
-      short_invalid = ssa.get_vh(tt.ds('0.9'));
-      delta = vh_to_hh(short_invalid, 'id');
-      clog(keys(delta));
-      update.special(source_sheet, delta);
-    }
-  });
-}
-
 function test_update_aggregated_data () {
   return jUnit.test_case('', {
     'test updating aggregated data' : function() {
