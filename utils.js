@@ -1,5 +1,15 @@
 //utils 0.4.0
 
+invalid_predicate = function(x) {
+    var a, b, fields;
+    fields = keys(x);
+    a = fields.some(function(field) {return empty(x[field]);});
+    if (x['IP Location']) {
+      b = x['IP Location'].indexOf('Transaction') > -1;
+    }
+    return a || b;
+  };
+
 sorter_maker = function(p) {
   return function(x, y) {
     var a, b;

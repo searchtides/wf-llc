@@ -12,13 +12,6 @@ function validate_master_data() {
   var xs, ys, valid, invalid, sheet_for_invalid_data, valid_q, invalid_q, invalid_predicate;
   xs = ssa.get_vh(get.sheet('aggregated data'));
 
-  invalid_predicate = function(x) {
-    var a, b, fields;
-    fields = keys(x);
-    a = fields.some(function(field) {return empty(x[field]);});
-    b = x['IP Location'].indexOf('Transaction') > -1;
-    return a || b;
-  };
   invalid = _.filter(xs, invalid_predicate);
   valid = _.reject(xs, invalid_predicate);
   valid.forEach(function(x) {
