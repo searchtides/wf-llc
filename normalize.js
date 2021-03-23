@@ -1,5 +1,30 @@
 var normalize = {};
 
+normalize.client_name = function(x) {
+  return lc(x).replace(/\s+/g, '');
+};
+
+normalize.header = function(x) {return x.replace(/\s/g,'_').toLowerCase();};
+
+normalize.html = function(x) {
+  var q_u, q, nbsp, q_reg;
+  q_u = String.fromCharCode(8217);
+  q_reg = new RegExp(q_u,'g');
+  q = String.fromCharCode(39);
+  nbsp = String.fromCharCode(160);
+  return unescape(_.unescape(x.trim()).toLowerCase())
+    .replace(q_reg, q)
+    .replace(nbsp, ' ')
+    .replace(/  +/g, ' ')
+    .replace('&rsquo;', q)
+    .replace(String.fromCharCode(233), 'e')
+    .replace('–', '-');
+};
+
+normalize.link = function(s) {
+  return s.replace(/https?:\/\//, '').replace(/www\./, '').replace(/\/$/, '');
+};
+
 //::[OMRecord]->[OMRecord]
 normalize.valid = function(raw) {
   raw.forEach(function(x) {

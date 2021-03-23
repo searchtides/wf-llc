@@ -2,6 +2,25 @@
 
 var get = {};
 
+//::{anchor:String, target_link:String url:String}->Status
+get.status = function(h) {
+  var html, present, link_present, status;
+  try {
+    html = UrlFetchApp.fetch(h.url).getContentText().replace(new RegExp("\n", 'g'), ' ');
+    present = is.present({html : html, anchor : h.anchor, link : h.target_link});
+    if (present) {
+      status = 'LIVE';
+    } else {
+      link_present = is.link_present({html : html, anchor : h.anchor, link : h.target_link});
+      status = link_present ? 'LIVE, BUT CORRUPTED ANCHOR' : 'NOT LIVE';
+    }
+  } catch (e) {
+    log(JSON.stringify(e));
+    status = 'UNABLE TO CRAWL';
+  }
+  return status;
+};
+
 get.workbooks_map = function(sheet) {
   var m, res;
   sheet = sheet || get.sheet('workbooks map');

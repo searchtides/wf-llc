@@ -40,9 +40,9 @@ function normalize_valid() {
 }
 
 function gen_report(matrix) {
-  var ys = matrix.map(function(pair){return pair[0] + pair[1];});
+  var ys = matrix.map(function(pair) {return pair[0] + pair[1];});
   //::Tripple->String
-  var subres = function(trio){
+  var subres = function(trio) {
     var total_q, k1, k2, R, res, valid_q, invalid_q;
     valid_q = trio[0];
     invalid_q = trio[1];
@@ -59,12 +59,12 @@ function gen_report(matrix) {
     res += 'Invalid records(' + invalid_percentage + '%):' + invalid_q + "\n";
     res += 'Valid records(' + valid_percentage + '%):' +  valid_q + "\n";
     return res;
-  }
+  };
   var total_records = (ys.reduce(sum));
-  var total_valid = matrix.map(function(pair){return pair[0];}).reduce(sum);
-  var total_invalid = matrix.map(function(pair){return pair[1];}).reduce(sum);
+  var total_valid = matrix.map(function(pair) {return pair[0];}).reduce(sum);
+  var total_invalid = matrix.map(function(pair) {return pair[1];}).reduce(sum);
   var total_res = subres([total_valid, total_invalid, 'total']);
   var analitic_res = matrix.map(subres).join("\n");
-  
+
   return total_res + analitic_res;
 }

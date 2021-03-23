@@ -1,14 +1,21 @@
 //utils 0.4.0
 
+function unescape(str) {
+  return str.replace(/&#(\d+);/g, function(match, numStr) {
+    var num = parseInt(numStr, 10); // read num as normal number
+    return String.fromCharCode(num);
+  });
+}
+
 invalid_predicate = function(x) {
-    var a, b, fields;
-    fields = keys(x);
-    a = fields.some(function(field) {return empty(x[field]);});
-    if (x['IP Location']) {
-      b = x['IP Location'].indexOf('Transaction') > -1;
-    }
-    return a || b;
-  };
+  var a, b, fields;
+  fields = keys(x);
+  a = fields.some(function(field) {return empty(x[field]);});
+  if (x['IP Location']) {
+    b = x['IP Location'].indexOf('Transaction') > -1;
+  }
+  return a || b;
+};
 
 sorter_maker = function(p) {
   return function(x, y) {
