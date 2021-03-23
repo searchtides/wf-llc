@@ -1,5 +1,6 @@
 var normalize = {};
 
+//::[OMRecord]->[OMRecord]
 normalize.valid = function(raw) {
   raw.forEach(function(x) {
     var fields;
@@ -14,7 +15,10 @@ normalize.valid = function(raw) {
 };
 
 normalize.archive = function(archive) {
-  return archive.map(function(ar) {
+  var xs, ys;
+  xs = _.reject(archive, invalid_predicate);
+  ys = _.filter(archive, invalid_predicate);
+  return xs.map(function(ar) {
     ar['IP Location'] = ar['IP Location'].trim();
     if (ar['Follow/NoFollow'] == 'F') {ar['Follow/NoFollow'] = 'Do-Follow';}
     if (ar['Follow/NoFollow'] == 'NF') {ar['Follow/NoFollow'] = 'No-Follow';}

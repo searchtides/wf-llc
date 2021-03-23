@@ -5,7 +5,7 @@ function normalize_module_tests() {
 function test_normalize_archive() {
   return jUnit.test_case('', {
     'test normalizing archive' : function() {
-      var archive, res;
+      var archive, res, last;
       archive = ssa.get_vh(tt.ds('0.6'));
       jUnit.assert_eq_num(521, archive.length);
       res = normalize.archive(archive);

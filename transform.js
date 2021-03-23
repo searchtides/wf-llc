@@ -1,6 +1,6 @@
 var transform = {};
 
-//::Record->WorkbookRecord
+//::OMRecord->WorkbookRecord
 transform.to_workbook_record = function(x) {
   var res, arr;
   res = {};

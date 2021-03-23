@@ -51,7 +51,9 @@
     if (last_row > 1) {
       sheet.getRange(2, 1, last_row - 1, last_column).clearContent();
     }
-    sheet.getRange(2, 1, m.length, m[0].length).setValues(m);
+    if (m.length) {
+      sheet.getRange(2, 1, m.length, m[0].length).setValues(m);
+    }
   };
 
   //::GSheet->Int->Int->[Int]->IO()
