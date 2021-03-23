@@ -1,5 +1,7 @@
 _ = Underscore.load();
 
+LINK_STATUSES = ['LIVE', 'LIVE, BUT CORRUPTED ANCHOR', 'NOT LIVE', 'UNABLE TO CRAWL'];
+
 FIELDS_MAP = {
   'DOMAIN' : 'Domain',
   '🔹TARGET URL (from AP Link)' : 'Target URL',
