@@ -1,6 +1,5 @@
 function validate_master_data() {
-  var xs, ys, valid, invalid, sheet_for_invalid_data, valid_q, invalid_q, config, res, total_q;
-  config = get.config();
+  var xs, ys, valid, invalid, sheet_for_invalid_data, valid_q, invalid_q, res, total_q;
   xs = ssa.get_vh(get.sheet('aggregated data'));
   invalid = _.filter(xs, invalid_predicate);
   valid = _.reject(xs, invalid_predicate);
@@ -11,11 +10,9 @@ function validate_master_data() {
   jUnit.assert_true(xs.length == valid.length + invalid.length);
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //Barricades!!!////Barricades!!!//Barricades!!!//Barricades!!!//Barricades!!!//Barricades!!!//Barricades!!!
-  var archive_valid = Number(sp.get('total_archive_valid'));
-  var archive_invalid = Number(sp.get('total_archive_invalid'));
-  var q_matrix = [[valid_q, invalid_q, 'om'],[archive_valid, archive_invalid, 'archive']];
-  res = gen_report(q_matrix);
-  MailApp.sendEmail(config.report_to, 'OM records validation result for ' + J_I(new Date()), res);
+
+  sp.set('total_om_valid', valid_q);
+  sp.set('total_om_invalid', invalid_q);
   sheet_for_invalid_data = get.sheet('invalid');
   ssa.put_vh(sheet_for_invalid_data, invalid);
   var sheet_for_valid_data = get.sheet('valid');
