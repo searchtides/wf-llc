@@ -2,6 +2,16 @@
 
 var get = {};
 
+get.q_matrix = function() {
+  var archive_valid, archive_invalid, valid_q, invalid_q, q_matrix;
+  valid_q = Number(sp.get('total_om_valid'));
+  invalid_q = Number(sp.get('total_om_invalid', invalid_q));
+  archive_valid = Number(sp.get('total_archive_valid'));
+  archive_invalid = Number(sp.get('total_archive_invalid'));
+  q_matrix = [[valid_q, invalid_q, 'om'],[archive_valid, archive_invalid, 'archive']];
+  return q_matrix;
+};
+
 //::{anchor:String, target_link:String url:String}->Status
 get.status = function(h) {
   var html, present, link_present, status;

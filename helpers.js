@@ -21,6 +21,14 @@ function validate_master_data() {
   crop.sheet(sheet_for_invalid_data);
 }
 
+function send_report() {
+  var config, q_matrix, res;
+  config = get.config();
+  q_matrix = get.q_matrix();
+  res = gen_report(q_matrix);
+  MailApp.sendEmail(config.report_to, 'OM records validation result for ' + J_I(new Date()), res);
+}
+
 function normalize_valid() {
   var sheet, xs, dest_sheet, ys;
   sheet = get.sheet('valid');
