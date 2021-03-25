@@ -1,11 +1,67 @@
+function create_checklist() {
+  // only valid data from both sources
+  var valid, valid_archive, xs, ys;
+  valid = ssa.get_vh(get.sheet('valid'));
+  xs = valid.map(transform.to_workbook_record);
+  valid_archive = ssa.get_vh(get.sheet('valid archives'));
+  ys = valid_archive.concat(xs);
+  ssa.put_vh(get.sheet('checklist'), ys);
+}
+
+function collect_archives() {
+  var w_map, client, ss, archive_sheet, archive, valid_archive, invalid_archive, total_invalids, xs, ys,
+    dest_sheet, total_valids, wth_clients;
+  dest_sheet = get.sheet('invalid archives');
+  total_invalids = total_valids = 0;
+  xs = [];ys = [];
+  w_map = get.workbooks_map();
+  for (client in w_map) {
+    ss = SpreadsheetApp.openByUrl(w_map[client]);
+    archive_sheet = ss.getSheetByName('archive');
+    if (archive_sheet) {
+      archive = ssa.get_vh(archive_sheet);
+      valid_archive = normalize.archive(_.reject(archive, invalid_predicate));
+      invalid_archive = _.filter(archive, invalid_predicate);
+      wth_clients = invalid_archive.map(function(x) {x['Client'] = client;return x;});
+      xs = xs.concat(wth_clients);
+      wth_clients = valid_archive.map(function(x) {x['Client'] = client;return x;});
+      ys = ys.concat(wth_clients);
+      total_invalids += invalid_archive.length;
+      total_valids += valid_archive.length;
+    } else {
+      clog(client  + ' No archive tab');
+    }
+  }
+  sp.set('total_archive_valid', total_valids);
+  sp.set('total_archive_invalid', total_invalids);
+  jUnit.assert_true(total_invalids == xs.length);
+  ssa.put_vh(dest_sheet, xs);
+  ssa.put_vh(get.sheet('valid archives'), ys);
+  return [total_valids, total_valids];
+}
+
+function add_data_quality_snapshot() {
+  var q_matrix, dest_sheet, start_row, vh, timed_q_matrix, timestamp;
+  dest_sheet = get.sheet('QA');
+  start_row = dest_sheet.getLastRow() + 1;
+  q_matrix = get.q_matrix();
+  timestamp = new Date();
+  timed_q_matrix = q_matrix.map(function(tripple) {return [timestamp].concat(tripple);});
+  ssa.append_matrix(timed_q_matrix, dest_sheet, 1);
+}
+
 function validate_master_data() {
-  var xs, ys, valid, invalid, sheet_for_invalid_data, valid_q, invalid_q, res, total_q;
+  //saves results in proper script properties
+  var xs, ys, valid, invalid, sheet_for_invalid_data, sheet_for_valid_data, valid_q, invalid_q, res, total_q;
   xs = ssa.get_vh(get.sheet('aggregated data'));
-  invalid = _.filter(xs, invalid_predicate);
-  valid = _.reject(xs, invalid_predicate);
   total_q = xs.length;
-  valid_q = valid.length;
+
+  invalid = _.filter(xs, invalid_predicate);
   invalid_q = invalid.length;
+
+  valid = _.reject(xs, invalid_predicate);
+  valid_q = valid.length;
+
   valid.forEach(function(x) {jUnit.assert_true(x['IP Location'].indexOf('Transaction') == -1);});
   jUnit.assert_true(xs.length == valid.length + invalid.length);
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -13,12 +69,16 @@ function validate_master_data() {
 
   sp.set('total_om_valid', valid_q);
   sp.set('total_om_invalid', invalid_q);
-  sheet_for_invalid_data = get.sheet('invalid');
-  ssa.put_vh(sheet_for_invalid_data, invalid);
-  var sheet_for_valid_data = get.sheet('valid');
-  ssa.put_vh(sheet_for_valid_data, valid);
-  crop.sheet(sheet_for_valid_data);
-  crop.sheet(sheet_for_invalid_data);
+
+  //visualusation in details for humans
+  var q_map = {'valid' : valid, 'invalid' : invalid};
+  ['valid', 'invalid'].forEach(function(type) {
+    var sheet = get.sheet(type);
+    ssa.put_vh(sheet, q_map[type]);
+    crop.sheet(sheet);
+  });
+
+  return q_map;
 }
 
 function send_report() {
