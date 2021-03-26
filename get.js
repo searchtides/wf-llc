@@ -2,6 +2,8 @@
 
 var get = {};
 
+get.vh = function(s) {return ssa.get_vh(get.sheet(s));};
+
 get.q_matrix = function() {
   var archive_valid, archive_invalid, valid_q, invalid_q, q_matrix;
   valid_q = Number(sp.get('total_om_valid'));
