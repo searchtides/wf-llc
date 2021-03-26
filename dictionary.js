@@ -30,7 +30,8 @@ FIELDS = [
   'IP Location',
   'DF / NF',
   'Live Link Date',
-  'CLIENT*'
+  'CLIENT*',
+  'TEAM'
 ];
 AIRTALBE_ENDPOINT = 'https://api.airtable.com/v0';
 HEADERS = {
