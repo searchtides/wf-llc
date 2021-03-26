@@ -1,5 +1,5 @@
 function daily() {
-  var res, normalized;
+  var res, normalized, d;
   res = update.aggregated_data();
   if (res.right) {
     log(res.right + ' records fetched from Airtable', 1);
@@ -7,7 +7,7 @@ function daily() {
     log(res.left, 1);
   }
   //data collected and stored on tab
-  validate_master_data();// will be the same all time until aggregated data updated
+  d = validate_master_data();// will be the same all time until aggregated data updated
   collect_archives();// may bring different R
   //q matrix formed
   send_report();
@@ -15,6 +15,5 @@ function daily() {
   create_checklist();//this guy creates new bunch of record to check, so previous state will be lost
   //TODO - run status checker trough all checklist with conituantions
   //legacy workflow below
-  normalized = normalize_valid();
-  update.workbooks(null, normalized);
+  update.workbooks(null, d.valid);
 }

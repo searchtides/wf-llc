@@ -1,7 +1,7 @@
 function create_checklist() {
   // only valid data from both sources
   var valid, valid_archive, xs, ys, vh;
-  valid = ssa.get_vh(get.sheet('normalized'));
+  valid = ssa.get_vh(get.sheet('valid'));
   xs = valid.map(transform.to_workbook_record);
   valid_archive = ssa.get_vh(get.sheet('valid archives'));
   ys = valid_archive.concat(xs);
@@ -60,7 +60,7 @@ function validate_master_data() {
   invalid = _.filter(xs, invalid_predicate);
   invalid_q = invalid.length;
 
-  valid = _.reject(xs, invalid_predicate);
+  valid = normalize.valid(_.reject(xs, invalid_predicate));
   valid_q = valid.length;
 
   valid.forEach(function(x) {jUnit.assert_true(x['IP Location'].indexOf('Transaction') == -1);});
@@ -88,16 +88,6 @@ function send_report() {
   q_matrix = get.q_matrix();
   res = gen_report(q_matrix);
   MailApp.sendEmail(config.report_to, 'OM records validation result for ' + J_I(new Date()), res);
-}
-
-function normalize_valid() {
-  var sheet, xs, dest_sheet, ys;
-  sheet = get.sheet('valid');
-  xs = ssa.get_vh(sheet);
-  ys = normalize.valid(xs);
-  dest_sheet = get.sheet('normalized');
-  ssa.put_vh(dest_sheet, ys);
-  return ys;
 }
 
 function gen_report(matrix) {
