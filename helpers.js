@@ -1,11 +1,12 @@
 function create_checklist() {
   // only valid data from both sources
-  var valid, valid_archive, xs, ys;
+  var valid, valid_archive, xs, ys, vh;
   valid = ssa.get_vh(get.sheet('normalized'));
   xs = valid.map(transform.to_workbook_record);
   valid_archive = ssa.get_vh(get.sheet('valid archives'));
   ys = valid_archive.concat(xs);
-  ssa.put_vh(get.sheet('checklist'), ys);
+  vh = ys.map(function(h){return _.extend({}, h, {hash:hash(h)});});
+  ssa.put_vh(get.sheet('checklist'), vh);
 }
 
 function collect_archives() {
