@@ -1,7 +1,18 @@
 function get_module_tests() {
   return test_get_cm_map() &&
       test_get_clients_map() &&
-      test_get_status();
+      test_get_status() &&
+      test_get_teams_map();
+}
+
+function test_get_teams_map() {
+  return jUnit.test_case('', {
+    'test getting teams map' : function() {
+      var res;
+      res = get.teams_map().right;
+      jUnit.assert_true(res);
+    }
+  });
 }
 
 function test_get_status() {

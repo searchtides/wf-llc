@@ -45,18 +45,20 @@ update.workbook = function(client, url, xs, formats) {
 };
 
 update.aggregated_data = function(sheet) {
-  var attempts, xs, cm_map, clients_map, succes, ys;
+  var attempts, xs, cm_map, clients_map, succes, ys, teams_map;
   sheet = sheet || get.sheet('aggregated data');
   attempts = [];
   attempts[0] = get.clients_map();
   attempts[1] = get.cm_map();
   attempts[2] = get.om_table();
+  attempts[3] = get.teams_map();
   succes = attempts.every(function(attempt) {return attempt.right;});
   if (succes) {
     clients_map = attempts[0].right;
     cm_map = attempts[1].right;
     xs = attempts[2].right;
-    ys = replace.ids_with_values(xs, cm_map, clients_map);
+    teams_map = attempts[3].right;
+    ys = replace.ids_with_values(xs, cm_map, clients_map, teams_map);
     ssa.put_vh(sheet, ys);
     return {right : ys.length};
   } else {

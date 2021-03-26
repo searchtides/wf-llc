@@ -64,6 +64,8 @@ get.map = function(table_name, field) {
 
 get.clients_map = function() {return get.map('CLIENTS', 'Client');};
 
+get.teams_map = function() {return get.map('TEAM', 'Name');};
+
 get.cm_map = function() {return get.map('CM', '🔹ARTICLE TITLE');};
 
 //::IO()->Either Error [Record]
