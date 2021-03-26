@@ -1,7 +1,7 @@
 function create_checklist() {
   // only valid data from both sources
   var valid, valid_archive, xs, ys;
-  valid = ssa.get_vh(get.sheet('valid'));
+  valid = ssa.get_vh(get.sheet('normalized'));
   xs = valid.map(transform.to_workbook_record);
   valid_archive = ssa.get_vh(get.sheet('valid archives'));
   ys = valid_archive.concat(xs);
