@@ -5,7 +5,7 @@ function create_checklist() {
   xs = valid.map(transform.to_workbook_record);
   valid_archive = ssa.get_vh(get.sheet('valid archives'));
   ys = valid_archive.concat(xs);
-  vh = ys.map(function(h){return _.extend({}, h, {hash:hash(h)});});
+  vh = ys.map(function(h) {return _.extend({}, h, {hash : hash(h)});});
   ssa.put_vh(get.sheet('checklist'), vh);
 }
 

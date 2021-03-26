@@ -1,6 +1,6 @@
 //utils 0.4.0
 
-hash = function(h) {return get_md5(_.values(_.pick(h, TRIPPLE)).join(''));}
+hash = function(h) {return get_md5(_.values(_.pick(h, TRIPPLE)).join(''));};
 
 function unescape(str) {
   return str.replace(/&#(\d+);/g, function(match, numStr) {

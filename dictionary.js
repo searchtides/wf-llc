@@ -14,7 +14,8 @@ FIELDS_MAP = {
   'IP Location' : 'IP Location',
   'DF / NF' : 'Follow/NoFollow',
   'Live Link Date' : 'Date',
-  'CLIENT*' : 'Client'
+  'CLIENT*' : 'Client',
+  'id' : 'id'
 };
 
 FIELDS = [
