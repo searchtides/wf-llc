@@ -1,5 +1,10 @@
 var extract = {};
 
+//::WorkbookRecrods->{:anchor :target_link :url}
+extract.check_options = function(h) {
+  return {anchor : h['Anchor Text'], target_link : h['Target URL'], url : h['Live Article URL']};
+};
+
 //::{:anchor :html} ->[ATag]
 extract.valued_tags = function(a) {
   var a_tags, regex, valued_tags, p;
