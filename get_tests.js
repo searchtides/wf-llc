@@ -2,7 +2,19 @@ function get_module_tests() {
   return test_get_cm_map() &&
       test_get_clients_map() &&
       test_get_status() &&
-      test_get_teams_map();
+      test_get_teams_map() &&
+      test_get_dup_map();
+}
+
+function test_get_dup_map() {
+  return jUnit.test_case('', {
+    'test getting dup map' : function() {
+      var checklist, res;
+      checklist = ssa.get_vh(tt.ds('0.11'));
+      res = get.dup_map(checklist);
+      jUnit.assert_eq_num(379, keys(res).length);
+    }
+  });
 }
 
 function test_get_teams_map() {

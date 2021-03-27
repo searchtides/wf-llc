@@ -2,6 +2,20 @@
 
 var get = {};
 
+//::[GeneralRecord]->{<id>:Int}
+get.dup_map = function(checklist) {
+  var xs, ys, res;
+  res = {};
+  checklist.forEach(function(h) {
+    var hs = h['hash'];
+    blow(res, hs, 0);
+    res[hs]++;
+  });
+  xs = _.pairs(res);
+  ys = xs.filter(function(x) {return x[1] > 1;});
+  return _.object(ys);
+};
+
 get.vh = function(s) {return ssa.get_vh(get.sheet(s));};
 
 get.q_matrix = function() {
