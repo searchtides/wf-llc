@@ -15,7 +15,8 @@ FIELDS_MAP = {
   'DF / NF' : 'Follow/NoFollow',
   'Live Link Date' : 'Date',
   'CLIENT*' : 'Client',
-  'id' : 'id'
+  'id' : 'id',
+  'TEAM' : 'TEAM'
 };
 
 FIELDS = [
