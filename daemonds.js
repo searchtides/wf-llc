@@ -1,5 +1,7 @@
 function daily() {
-  var res, normalized, d;
+  var res, d, daily_map, yesterday, config;
+  config = get.config();
+  yesterday = J_I(dnt.add_days(new Date(), -1));
   res = update.aggregated_data();
   if (res.right) {
     log(res.right + ' records fetched from Airtable', 1);
@@ -12,6 +14,10 @@ function daily() {
   //q matrix formed
   send_report();
   add_data_quality_snapshot();
+  daily_map = gen.daily_map(d.valid.map(transform.to_workbook_record));
+  //TODO reduce valid set to last week or several days
+  send.new_records_report(yesterday, daily_map[yesterday], config.report_to);
+  log('report about new records for ' + yesterday + ' sent', 1);
   create_checklist();//this guy creates new bunch of record to check, so previous state will be lost
   //TODO - run status checker trough all checklist with conituantions
   //legacy workflow below
