@@ -1,0 +1,11 @@
+.*
+*.json
+tests.js
+log.js
+tt*
+datatypes.js
+temp*
+server_tests.js
+meta*
+!.clasp.json
+!.gitignore
