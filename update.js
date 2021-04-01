@@ -1,10 +1,10 @@
 var update = {};
 
-//::WorkbooksMap->[OMRecord]->IO()
+//::WorkbooksMap->[GeneralRecord]->IO()
 update.workbooks = function(w_map, source_xs) {
   var w_map, client, xs, ys, ss, sheet, zs, range, formats, client_records;
   w_map = w_map || get.workbooks_map();
-  ys = source_xs.map(transform.to_workbook_record);
+  ys = source_xs;
   range = get.sheet('template').getDataRange();
   formats = get.formats(range);
   for (client in w_map) {
@@ -14,7 +14,7 @@ update.workbooks = function(w_map, source_xs) {
 };
 
 update.workbook = function(client, url, xs, formats) {
-  var ss, archive_sheet, archive, combined, sort_fn, access, sheet, zs, sheet_name;
+  var ss, sort_fn, access, sheet, zs, sheet_name;
   sheet_name = 'Live Links';
   try {
     ss = SpreadsheetApp.openByUrl(url);
@@ -29,18 +29,8 @@ update.workbook = function(client, url, xs, formats) {
       sheet = ss.insertSheet(sheet_name);
       apply.formats(sheet, 1, 1, formats);
     }
-    archive_sheet = ss.getSheetByName('archive');
-    if (archive_sheet) {
-      archive = ssa.get_vh(archive_sheet);
-      var valid_archive = _.reject(archive, invalid_predicate);
-      archive = normalize.archive(valid_archive);
-    } else {
-      archive = [];
-    }
     sort_fn = sorter_maker('Date');
-    combined = xs.concat(archive).sort(sort_fn);
-    clog(combined.length);
-    ssa.put_vh(sheet, combined);
+    ssa.put_vh(sheet, xs.sort(sort_fn));
   }
 };
 
