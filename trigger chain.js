@@ -6,8 +6,8 @@ function start_checking_iterations() {
 }
 
 function checking_status_iteration() {
-  var vh, xs, ys, sheet, idx_start, elapsed, B_SIZE, t_diff, processed, i, h, batch, x, TIME_LIMIT, timeout,
-  check_log_sheet;
+  var vh, xs, ys, sheet, idx_start, B_SIZE, t_diff, processed, i, h, batch, x, TIME_LIMIT, timeout,
+  check_log_sheet, t1, t2;
   check_log_sheet = get.sheet('check log');
   TIME_LIMIT = 25*60*1000;//ms
   remove_trigger('checking_status_iteration');
@@ -16,23 +16,22 @@ function checking_status_iteration() {
   xs = takeWhile(function(x){return !empty(x['Link Status']);}, vh);
   idx_start = xs.length;
   ys = vh.slice(idx_start, vh.length);
-  elapsed = 0;
   if (ys.length == 0) {
     //all statuses gathered
     finish_iterations(vh.length);
   } else {
-    var statuses = [];
+    t1 = new Date().getTime();
     i=0;
     do {
       h = ys[i];
       batch = extract.check_options(h);
       var t = new Date();
       x = measure(get.status, [batch]);
-      elapsed += x.time;
       vh[idx_start + i]['Link Status'] = x.res;//!!!!!!!MUTATING INPUT ARRAY
       check_log_sheet.appendRow([t, h['Client'], x.time, x.res, batch.url, batch.anchor, batch.target_link]);
       i++;
-      timeout = elapsed >= TIME_LIMIT
+      t2 = new Date().getTime();
+      timeout = (t2 - t1) >= TIME_LIMIT
     } while(!timeout && i < ys.length);
   }
   ssa.put_vh(sheet, vh);
