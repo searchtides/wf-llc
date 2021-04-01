@@ -41,7 +41,7 @@ get.status = function(h) {
       status = link_present ? 'LIVE, BUT CORRUPTED ANCHOR' : 'NOT LIVE';
     }
   } catch (e) {
-    log(JSON.stringify(e));
+    //log(JSON.stringify(e));
     status = 'UNABLE TO CRAWL';
   }
   return status;
