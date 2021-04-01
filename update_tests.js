@@ -7,7 +7,6 @@ function test_update_workbooks() {
     'test updating workbooks' : function() {
       var w_map, res, checked;
       checked = ssa.get_vh(tt.ds('0.12'));
-      clog(checked[0]['Client']);
       jUnit.assert_eq('TVG', checked[0]['Client']);
       jUnit.assert_eq('TVG', checked[checked.length - 1]['Client']);
       w_map = get.workbooks_map(tt.ds('0.5'));

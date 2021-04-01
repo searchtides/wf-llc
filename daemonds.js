@@ -1,5 +1,5 @@
 function daily() {
-  var res, d, daily_map, yesterday, config;
+  var res, d, daily_map, yesterday, config, checked;
   config = get.config();
   yesterday = J_I(dnt.add_days(new Date(), -1));
   res = update.aggregated_data();
@@ -21,5 +21,5 @@ function daily() {
   create_checklist();//this guy creates new bunch of record to check, so previous state will be lost
   //TODO - run status checker trough all checklist with conituantions
   //legacy workflow below
-  update.workbooks(null, d.valid);
+  update.workbooks(null, get.vh('list checked'));
 }
