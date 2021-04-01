@@ -35,8 +35,4 @@ FIELDS = [
   'TEAM'
 ];
 AIRTALBE_ENDPOINT = 'https://api.airtable.com/v0';
-HEADERS = {
-  "Authorization" : "Bearer keyn3sqIpJVHnSva0",
-  "Content-Type" : "application/json"
-};
 DATABASE_ID = 'appITyYZgPYYMkPMg';

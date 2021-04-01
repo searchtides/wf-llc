@@ -63,9 +63,9 @@ get.workbooks_map = function(sheet) {
 };
 
 //::String->Hashmap
-get.map = function(table_name, field) {
-  var res, xs, m, offset, headers, ys, table_name, fields, fetch_attempt, res_map;
-  fetch_attempt = fetch.all({table_name : table_name, fields : [field]});
+get.map = function(table_name, field, config) {
+  var res, xs, m, offset, headers, ys, table_name, fields, fetch_attempt, res_map, config;
+  fetch_attempt = fetch.all({table_name : table_name, fields : [field], config:config});
   if (fetch_attempt.right) {
     xs = fetch_attempt.right;
     ys = xs.map(function(x) { return _.extend({}, x.fields, _.pick(x, 'id'));});
@@ -76,19 +76,19 @@ get.map = function(table_name, field) {
   }
 };
 
-get.clients_map = function() {return get.map('CLIENTS', 'Client');};
+get.clients_map = function(a) {return get.map('CLIENTS', 'Client', a.config);};
 
-get.teams_map = function() {return get.map('TEAM', 'Name');};
+get.teams_map = function(a) {return get.map('TEAM', 'Name', a.config);};
 
-get.cm_map = function() {return get.map('CM', '🔹ARTICLE TITLE');};
+get.cm_map = function(a) {return get.map('CM', '🔹ARTICLE TITLE', a.config);};
 
 //::IO()->Either Error [Record]
-get.om_table = function() {
+get.om_table = function(a) {
   var table_name, fields, formula, xs, ys, fetch_attempt;
   table_name = 'OM';
   fields = ['STATUS 1', 'Import Date'].concat(FIELDS);
   formula = "{STATUS 1} = 'Published'";
-  fetch_attempt = fetch.all({table_name : table_name, fields : fields, formula : formula});
+  fetch_attempt = fetch.all({table_name : table_name, fields : fields, formula : formula, config: a.config});
   if (fetch_attempt.right) {
     xs = fetch_attempt.right;
     ys = xs.map(function(x) { return _.extend({}, x.fields, _.pick(x, 'id'));});

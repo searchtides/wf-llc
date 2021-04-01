@@ -20,8 +20,9 @@ function test_get_dup_map() {
 function test_get_teams_map() {
   return jUnit.test_case('', {
     'test getting teams map' : function() {
-      var res;
-      res = get.teams_map().right;
+      var res, config;
+      config = get.config();
+      res = get.teams_map({config:config}).right;
       jUnit.assert_true(res);
     }
   });
@@ -43,8 +44,9 @@ function test_get_status() {
 function test_get_om_table() {
   return jUnit.test_case('', {
     'test getting om table' : function() {
-      var res;
-      res = get.om_table();
+      var res, config;
+      config = get.config();
+      res = get.om_table({config:config});
       jUnit.assert_true(res.right);
     }
   });
@@ -53,8 +55,9 @@ function test_get_om_table() {
 function test_get_clients_map() {
   return jUnit.test_case('', {
     'test getting clients map' : function() {
-      var res;
-      res = get.clients_map();
+      var res, config;
+      config = get.config();
+      res = get.clients_map({config:config});
       jUnit.assert_true(res.right);
     }
   });
@@ -63,8 +66,9 @@ function test_get_clients_map() {
 function test_get_cm_map() {
   return jUnit.test_case('', {
     'test getting cm map' : function() {
-      var res;
-      res = get.cm_map();
+      var res, config;
+      config = get.config();
+      res = get.cm_map({config:config});
       jUnit.assert_true(res.right);
     }
   });

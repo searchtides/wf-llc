@@ -1,6 +1,6 @@
 var fetch = {};
 
-////::{:table_name, :fields, :filter}->Either String Hashmap
+////::{:table_name, :fields, :filter :config}->Either String Hashmap
 fetch.all = function(a) {
   var xs, res, offset, arg;
   xs = [];
@@ -17,13 +17,14 @@ fetch.all = function(a) {
   return {right : xs};
 };
 
-//::{:table_name, :fields, :filter, :offset}->Either String Hashmap
+//::{:table_name, :fields, :filter, :offset :config}->Either String Hashmap
 fetch.airtable = function(a) {
-  var url, table_name, options, res, h, result_map, fn, field, formula, fields, fields_str, offset;
+  var url, table_name, options, res, h, result_map, fn, field, formula, fields, fields_str, offset, config, headers;
   table_name = a.table_name;
   formula = a.formula;
   fields = a.fields;
   offset = a.offset;
+  config = a.config;
   url = [AIRTALBE_ENDPOINT, DATABASE_ID, table_name].join('/') + '?';
   if (fields) {
     fields_str = fields.map(function(field) {return encodeURI('fields[]=' + field);}).join('&');
@@ -33,7 +34,11 @@ fetch.airtable = function(a) {
   if (formula) {
     url += '&filterByFormula=' + encodeURI(formula);
   }
-  options =  {method : 'get', headers : HEADERS, muteHttpExceptions : true};
+  headers = {
+    "Authorization" : "Bearer " + config.airtable_token,
+    "Content-Type" : "application/json"
+  };
+  options =  {method : 'get', headers : headers, muteHttpExceptions : true};
   fn = function(s) {return JSON.parse(s);};
   res = http_req({url : url, options : options, fn : fn});
   return res;
