@@ -8,7 +8,7 @@ function start_checking_iterations() {
 function checking_status_iteration() {
   var vh, xs, ys, sheet, idx_start, B_SIZE, t_diff, processed, i, h, batch, x, TIME_LIMIT, timeout,
   check_log_sheet, t1, t2, diff;
-  check_log_sheet = get.sheet('check log');
+  check_log_sheet = SpreadsheetApp.openByUrl(CHECKLOG_URL).getSheets()[0];
   TIME_LIMIT = 25*60*1000;//ms
   remove_trigger('checking_status_iteration');
   sheet = get.sheet('checklist');

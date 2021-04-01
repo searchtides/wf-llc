@@ -1,5 +1,7 @@
 _ = Underscore.load();
 
+CHECKLOG_URL = 'https://docs.google.com/spreadsheets/d/1rCpB6il50FoQYGWtEocDgk9lUNZIbnwcXTw4yL-nJwI/edit?usp=sharing';
+
 LINK_STATUSES = ['LIVE', 'LIVE, BUT CORRUPTED ANCHOR', 'NOT LIVE', 'UNABLE TO CRAWL'];
 
 FIELDS_MAP = {
