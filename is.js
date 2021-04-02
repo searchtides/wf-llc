@@ -1,5 +1,11 @@
 is = {};
 
+is.anchor_wrapped_in_atag = function(a) {
+  var tags, regex, xs, valued_tags, link_template, p;
+  valued_tags = extract.valued_tags(a);//::->[ATag] all <a> tags which contained anchor
+  return valued_tags.length > 0;
+}
+
 //::{:html :link}->Bool
 is.link_present = function(a) {
   var tags, xs, link_template, proper_link_tags, regex;
@@ -13,6 +19,14 @@ is.link_present = function(a) {
     return regex.test(site_link);
   });
   return proper_link_tags.length > 0;
+};
+
+//::{link: anchor: html:} -> Bool
+is.anchor_present = function(a) {
+  var anchor, html;
+  anchor = normalize.html(a.anchor.toLowerCase());
+  html = normalize.html(a.html);
+  return html.indexOf(anchor) > -1;
 };
 
 //::{link: anchor: html:} -> Bool
