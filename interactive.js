@@ -24,22 +24,22 @@ function add_details(sheet, status) {
     link = h['Live Article URL'];
     anchor = h['Anchor Text'];
     target_link = h['Target URL'];
-    h['Anchor presense'] = '';
-    h['Target URL presense'] = '';
-    h['Wrapped anchor presense'] = '';
+    h['Anchor presence'] = '';
+    h['Target URL presence'] = '';
+    h['Wrapped anchor presence'] = '';
     try {
       var resp;
       resp = UrlFetchApp.fetch(link);
       h['Response code'] = resp.getResponseCode();
       html = resp.getContentText().replace(new RegExp("\n", 'g'), ' ');
       banch = {link : target_link,  anchor : anchor,  html : html};
-      h['Anchor presense'] = is.anchor_present(banch);
-      h['Target URL presense'] = is.link_present(banch);
-      h['Wrapped anchor presense'] = is.anchor_wrapped_in_atag(banch);
-      if (h['Anchor presense'] && h['Target URL presense'] && h['Wrapped anchor presense'] ) {
+      h['Anchor presence'] = is.anchor_present(banch);
+      h['Target URL presence'] = is.link_present(banch);
+      h['Wrapped anchor presence'] = is.anchor_wrapped_in_atag(banch);
+      if (h['Anchor presence'] && h['Target URL presence'] && h['Wrapped anchor presence'] ) {
         //it must be LIVE!
         h['Link Status'] = LINK_STATUSES[0];
-      } else if (h['Target URL presense'] && !h['Wrapped anchor presense']) {
+      } else if (h['Target URL presence'] && !h['Wrapped anchor presence']) {
         h['Link Status'] = LINK_STATUSES[1];
       } else {
         h['Link Status'] = LINK_STATUSES[2];
