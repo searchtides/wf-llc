@@ -9,3 +9,4 @@ server_tests.js
 meta*
 !.clasp.json
 !.gitignore
+!.eslintrc.json
