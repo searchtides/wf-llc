@@ -19,7 +19,6 @@ function daily() {
   send.new_records_report(yesterday, daily_map[yesterday], config.report_to);
   log('report about new records for ' + yesterday + ' sent', 1);
   create_checklist();//this guy creates new bunch of record to check, so previous state will be lost
-  //TODO - run status checker trough all checklist with conituantions
-  //legacy workflow below
-  update.workbooks(null, get.vh('list checked'));
+  start_checking_iterations();
+  //continuation in time
 }
