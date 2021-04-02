@@ -1,3 +1,27 @@
+function refresh_non_green_records() {
+  var checked_list, non_green, dead, unreachable, corrupted, corrupted_sheet, green, non_green_sheet,
+    ureachable_sheet, not_live_sheet;
+
+  checked_list = get.vh('list checked');
+  green = checked_list.filter(function(x) {return x['Link Status'] == LINK_STATUSES[0];});
+
+  non_green_sheet = get.sheet('non-green');
+  non_green = checked_list.filter(function(x) {return x['Link Status'] != LINK_STATUSES[0];});
+  ssa.put_vh(non_green_sheet, non_green);
+
+  not_live_sheet = get.sheet('not live');
+  dead = checked_list.filter(function(x) {return x['Link Status'] == LINK_STATUSES[2];});
+  ssa.put_vh(not_live_sheet, dead);
+
+  corrupted_sheet = get.sheet('anchor defect');
+  corrupted = checked_list.filter(function(x) {return x['Link Status'] == LINK_STATUSES[1];});
+  ssa.put_vh(corrupted_sheet, corrupted);
+
+  ureachable_sheet = get.sheet('unreachable');
+  unreachable = checked_list.filter(function(x) {return x['Link Status'] == LINK_STATUSES[3];});
+  ssa.put_vh(ureachable_sheet, unreachable);
+}
+
 function create_checklist() {
   // only valid data from both sources
   var valid, valid_archive, xs, ys, vh;
