@@ -1,5 +1,7 @@
 var extract = {};
 
+extract.id = function(s){return s.split('/')[5];}
+
 //::WorkbookRecrods->{:anchor :target_link :url}
 extract.check_options = function(h) {
   return {anchor : h['Anchor Text'], target_link : h['Target URL'], url : h['Live Article URL']};
