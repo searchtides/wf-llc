@@ -65,7 +65,7 @@ get.workbooks_map = function(sheet) {
 //::String->Hashmap
 get.map = function(table_name, field, config) {
   var res, xs, m, offset, headers, ys, table_name, fields, fetch_attempt, res_map, config;
-  fetch_attempt = fetch.all({table_name : table_name, fields : [field], config:config});
+  fetch_attempt = fetch.all({table_name : table_name, fields : [field], config : config});
   if (fetch_attempt.right) {
     xs = fetch_attempt.right;
     ys = xs.map(function(x) { return _.extend({}, x.fields, _.pick(x, 'id'));});
@@ -88,7 +88,7 @@ get.om_table = function(a) {
   table_name = 'OM';
   fields = ['STATUS 1', 'Import Date'].concat(FIELDS);
   formula = "{STATUS 1} = 'Published'";
-  fetch_attempt = fetch.all({table_name : table_name, fields : fields, formula : formula, config: a.config});
+  fetch_attempt = fetch.all({table_name : table_name, fields : fields, formula : formula, config : a.config});
   if (fetch_attempt.right) {
     xs = fetch_attempt.right;
     ys = xs.map(function(x) { return _.extend({}, x.fields, _.pick(x, 'id'));});

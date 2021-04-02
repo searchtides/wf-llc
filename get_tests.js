@@ -22,7 +22,7 @@ function test_get_teams_map() {
     'test getting teams map' : function() {
       var res, config;
       config = get.config();
-      res = get.teams_map({config:config}).right;
+      res = get.teams_map({config : config}).right;
       jUnit.assert_true(res);
     }
   });
@@ -46,7 +46,7 @@ function test_get_om_table() {
     'test getting om table' : function() {
       var res, config;
       config = get.config();
-      res = get.om_table({config:config});
+      res = get.om_table({config : config});
       jUnit.assert_true(res.right);
     }
   });
@@ -57,7 +57,7 @@ function test_get_clients_map() {
     'test getting clients map' : function() {
       var res, config;
       config = get.config();
-      res = get.clients_map({config:config});
+      res = get.clients_map({config : config});
       jUnit.assert_true(res.right);
     }
   });
@@ -68,7 +68,7 @@ function test_get_cm_map() {
     'test getting cm map' : function() {
       var res, config;
       config = get.config();
-      res = get.cm_map({config:config});
+      res = get.cm_map({config : config});
       jUnit.assert_true(res.right);
     }
   });

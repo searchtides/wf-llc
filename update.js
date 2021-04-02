@@ -39,10 +39,10 @@ update.aggregated_data = function(sheet) {
   config = get.config();
   sheet = sheet || get.sheet('aggregated data');
   attempts = [];
-  attempts[0] = get.clients_map({config:config});
-  attempts[1] = get.cm_map({config:config});
-  attempts[2] = get.om_table({config:config});
-  attempts[3] = get.teams_map({config:config});
+  attempts[0] = get.clients_map({config : config});
+  attempts[1] = get.cm_map({config : config});
+  attempts[2] = get.om_table({config : config});
+  attempts[3] = get.teams_map({config : config});
   succes = attempts.every(function(attempt) {return attempt.right;});
   if (succes) {
     clients_map = attempts[0].right;

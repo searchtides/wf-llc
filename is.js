@@ -4,7 +4,7 @@ is.anchor_wrapped_in_atag = function(a) {
   var tags, regex, xs, valued_tags, link_template, p;
   valued_tags = extract.valued_tags(a);//::->[ATag] all <a> tags which contained anchor
   return valued_tags.length > 0;
-}
+};
 
 //::{:html :link}->Bool
 is.link_present = function(a) {

@@ -24,15 +24,15 @@ function add_details(sheet, status) {
     link = h['Live Article URL'];
     anchor = h['Anchor Text'];
     target_link = h['Target URL'];
-    h['Anchor presense'] = ''
+    h['Anchor presense'] = '';
     h['Target URL presense'] = '';
-    h['Wrapped anchor presense'] = ''
+    h['Wrapped anchor presense'] = '';
     try {
       var resp;
       resp = UrlFetchApp.fetch(link);
       h['Response code'] = resp.getResponseCode();
       html = resp.getContentText().replace(new RegExp("\n", 'g'), ' ');
-      banch = {link:target_link,  anchor:anchor,  html:html};
+      banch = {link : target_link,  anchor : anchor,  html : html};
       h['Anchor presense'] = is.anchor_present(banch);
       h['Target URL presense'] = is.link_present(banch);
       h['Wrapped anchor presense'] = is.anchor_wrapped_in_atag(banch);
@@ -44,7 +44,7 @@ function add_details(sheet, status) {
       } else {
         h['Link Status'] = LINK_STATUSES[2];
       }
-    } catch(e) {
+    } catch (e) {
       h['Link Status'] = LINK_STATUSES[3];
     }
     return h;
