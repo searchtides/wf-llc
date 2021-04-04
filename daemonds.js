@@ -13,8 +13,7 @@ function daily() {
   collect_archives();// may bring different R
   //q matrix formed
   add_data_quality_snapshot();
-  send_report();
-  send.qa_report(get.sheet('QA'), yesterday,  config.admin);
+  send.qa_report(get.sheet('QA'), yesterday,  config.report_to);
 
   daily_map = gen.daily_map(d.valid.map(transform.to_workbook_record));
   //TODO reduce valid set to last week or several days
