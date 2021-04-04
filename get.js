@@ -24,7 +24,7 @@ get.q_matrix = function() {
   invalid_q = Number(sp.get('total_om_invalid', invalid_q));
   archive_valid = Number(sp.get('total_archive_valid'));
   archive_invalid = Number(sp.get('total_archive_invalid'));
-  q_matrix = [[valid_q, invalid_q, 'om'],[archive_valid, archive_invalid, 'archive']];
+  q_matrix = [['om', valid_q, invalid_q, ],[ 'archive', archive_valid, archive_invalid]];
   return q_matrix;
 };
 
