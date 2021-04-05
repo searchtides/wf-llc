@@ -2,6 +2,17 @@ function send_module_tests() {
   return;
 }
 
+function test_send_link_statuses_report() {
+  return jUnit.test_case('', {
+    'test sending link statuses report' : function() {
+      var sheet, day, xs;
+      sheet = tt.ds('0.15');
+      xs = ssa.get_vh(sheet);
+      send.link_statuses_report(xs,  'yuriy@searchtides.com');
+    }
+  });
+}
+
 function test_send_qa_report() {
   return jUnit.test_case('', {
     'test sending qa report' : function() {

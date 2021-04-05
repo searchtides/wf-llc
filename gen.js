@@ -1,5 +1,70 @@
 var gen = {};
 
+gen.ls_report = function(g_map) {
+  var m, htmlBody, html, design_map, groups;
+  groups = ['total', 'green', 'non_green', 'dead', 'with_defects', 'unreachable'];
+  design_map = {
+    'green' : {
+      title : 'Live',
+      class : 'green',
+      title_class : 'regular',
+      sheet : 'green'
+    },
+    'total' : {
+      title : 'Total',
+      class : 'regular',
+      title_class : 'regular',
+      sheet : 'list checked'
+    },
+    'non_green' : {
+      title : 'Non-green',
+      class : 'non-green',
+      title_class : 'regular',
+      sheet : 'non-green'
+    },
+    'dead' : {
+      title : '| Not live',
+      class : 'red small',
+      title_class : 'small',
+      sheet : 'not live'
+    },
+    'with_defects' : {
+      title : '| Bad anchor',
+      class : 'orange small',
+      title_class : 'small',
+      sheet : 'anchor defect'
+    },
+    'unreachable' : {
+      title : '| Unreachabe',
+      class : 'blue small',
+      title_class : 'small',
+      sheet : 'unreachable'
+    }
+  };
+  m = keys(g_map).map(function(group) {
+    var col1, col2, h, ss_url, tab_id, link_to_tab;
+    h = design_map[group];
+    ss_url = SpreadsheetApp.getActive().getUrl();
+    tab_id = get.sheet(h.sheet).getSheetId();
+    link_to_tab = ss_url + '#gid=' + tab_id;
+    col1 = '<a ' + convert.to.attrs({class : h.title_class})  + 'href="' + link_to_tab + '">'  + h.title + '</a>';
+    col2 = wrap.in_tag('span', {class : h.class}, g_map[group]);
+    return [col1 , col2];
+  });
+  htmlBody = gen.html_table(m);
+  var css = '.regular {}';
+  css += '.small {font-size:0.8em;}';
+  css += '.green {color:green;}';
+  css += '.red {color:red;}';
+  css += '.orange {color:orange;}';
+  css += '.blue {color:blue;}';
+  css += '.non-green {color:gray;}';
+  var style = wrap.in_tag('style', {} , css);
+  var html_header = wrap.in_tag('head', {}, style);
+  html = html_header + htmlBody;
+  return html;
+};
+
 //::QaMap->Iso8601d->Html
 gen.qa_report = function(qa_map, day) {
   var day_before, diff, xs, m, table_html, html, html_body;

@@ -1,5 +1,15 @@
 var send = {};
 
+send.link_statuses_report = function(xs, recepients) {
+  var g_map, htmlBody, options, subject;
+  subject = 'Links statuses report on ';
+  //time for last checked link?
+  g_map = get.statuses_stats(xs);
+  htmlBody = gen.ls_report(g_map);
+  options = {to : recepients, subject : subject, htmlBody : htmlBody};
+  MailApp.sendEmail(options);
+};
+
 send.qa_report = function(sheet, day, recepients) {
   var xs, qa_map, res, subject, options;
   xs = ssa.get_vh(sheet);
