@@ -6,6 +6,7 @@ get.statuses_stats = function (checked_list) {
   var res, groups_map, group, xs;
   res = {};
   groups_map = {
+    'total' : function() {return true;},
     'green' : function(x) {return x['Link Status'] == LINK_STATUSES[0];},
     'non_green' : function(x) {return x['Link Status'] != LINK_STATUSES[0];},
     'dead' : function(x) {return x['Link Status'] == LINK_STATUSES[2];},
