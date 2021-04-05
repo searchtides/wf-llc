@@ -2,6 +2,24 @@
 
 var get = {};
 
+get.statuses_stats = function (checked_list) {
+  var res, groups_map, group, xs;
+  res = {};
+  groups_map = {
+    'green' : function(x) {return x['Link Status'] == LINK_STATUSES[0];},
+    'non_green' : function(x) {return x['Link Status'] != LINK_STATUSES[0];},
+    'dead' : function(x) {return x['Link Status'] == LINK_STATUSES[2];},
+    'with_defects' : function(x) {return x['Link Status'] == LINK_STATUSES[1];},
+    'unreachable' : function(x) {return x['Link Status'] == LINK_STATUSES[3];}
+  };
+
+  for (group in groups_map) {
+    var xs = checked_list.filter(groups_map[group]);
+    res[group] = xs.length;
+  }
+  return res;
+};
+
 //::[GeneralRecord]->{<id>:Int}
 get.dup_map = function(checklist) {
   var xs, ys, res;

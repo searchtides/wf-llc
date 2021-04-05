@@ -6,6 +6,22 @@ function get_module_tests() {
       test_get_dup_map();
 }
 
+function test_get_statuses_stats() {
+  return jUnit.test_case('', {
+    'test getting statistics for statuses' : function() {
+      var checklist, res;
+      checklist = ssa.get_vh(tt.ds('0.15'));
+      res = get.statuses_stats(checklist);
+      jUnit.assert_eq_num(1979, res.green);
+      jUnit.assert_eq_num(34, res.with_defects);
+      jUnit.assert_eq_num(105, res.unreachable);
+      jUnit.assert_eq_num(131, res.dead);
+      jUnit.assert_eq_num(270, res.non_green);
+      jUnit.assert_true(res.non_green == res.dead + res.with_defects + res.unreachable);
+    }
+  });
+}
+
 function test_get_dup_map() {
   return jUnit.test_case('', {
     'test getting dup map' : function() {
