@@ -45,9 +45,12 @@ function checking_status_iteration() {
 }
 
 function finish_iterations(n) {
-  var checked, vh;
+  var checked, vh, config;
+  config = get.config();
   log('all ' + n + ' links have been checked', 1);
   vh = get.vh('checklist');
   ssa.put_vh(get.sheet('list checked'), vh);
+  refresh_records_in_groups();
+  send.link_statuses_report(J_I(new Date()), vh, config.report_to);
   update.workbooks(null, vh);
 }

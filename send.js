@@ -1,8 +1,8 @@
 var send = {};
 
-send.link_statuses_report = function(xs, recepients) {
+send.link_statuses_report = function(day, xs, recepients) {
   var g_map, htmlBody, options, subject;
-  subject = 'Links statuses report on ';
+  subject = 'Links statuses report on ' + day;
   //time for last checked link?
   g_map = get.statuses_stats(xs);
   htmlBody = gen.ls_report(g_map);

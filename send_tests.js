@@ -8,7 +8,8 @@ function test_send_link_statuses_report() {
       var sheet, day, xs;
       sheet = tt.ds('0.15');
       xs = ssa.get_vh(sheet);
-      send.link_statuses_report(xs,  'yuriy@searchtides.com');
+      day = '2021-04-05';
+      send.link_statuses_report(day, xs,  'yuriy@searchtides.com');
     }
   });
 }

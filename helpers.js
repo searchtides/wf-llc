@@ -1,25 +1,32 @@
-function refresh_non_green_records() {
+function refresh_records_in_groups() {
   var checked_list, non_green, dead, unreachable, corrupted, corrupted_sheet, green, non_green_sheet,
-    ureachable_sheet, not_live_sheet;
+    ureachable_sheet, not_live_sheet, green_sheet;
 
   checked_list = get.vh('list checked');
   green = checked_list.filter(function(x) {return x['Link Status'] == LINK_STATUSES[0];});
+  green_sheet = get.sheet('green');
+  ssa.put_vh(green_sheet, green);
+  crop.sheet(green_sheet);
 
   non_green_sheet = get.sheet('non-green');
   non_green = checked_list.filter(function(x) {return x['Link Status'] != LINK_STATUSES[0];});
   ssa.put_vh(non_green_sheet, non_green);
+  crop.sheet(non_green_sheet);
 
   not_live_sheet = get.sheet('not live');
   dead = checked_list.filter(function(x) {return x['Link Status'] == LINK_STATUSES[2];});
   ssa.put_vh(not_live_sheet, dead);
+  crop.sheet(not_live_sheet);
 
   corrupted_sheet = get.sheet('anchor defect');
   corrupted = checked_list.filter(function(x) {return x['Link Status'] == LINK_STATUSES[1];});
   ssa.put_vh(corrupted_sheet, corrupted);
+  crop.sheet(corrupted_sheet);
 
   ureachable_sheet = get.sheet('unreachable');
   unreachable = checked_list.filter(function(x) {return x['Link Status'] == LINK_STATUSES[3];});
   ssa.put_vh(ureachable_sheet, unreachable);
+  crop.sheet(ureachable_sheet);
 }
 
 function create_checklist() {
