@@ -14,6 +14,7 @@ function daily() {
   //q matrix formed
   add_data_quality_snapshot();
   send.qa_report(get.sheet('QA'), yesterday,  config.report_to);
+  log('QA report for' + yesterday + ' sent', 1);
 
   daily_map = gen.daily_map(d.valid.map(transform.to_workbook_record));
   //TODO reduce valid set to last week or several days
