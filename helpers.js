@@ -113,14 +113,6 @@ function validate_master_data() {
   return q_map;
 }
 
-function send_report() {
-  var config, q_matrix, res;
-  config = get.config();
-  q_matrix = get.q_matrix();
-  res = gen_report(q_matrix);
-  MailApp.sendEmail(config.report_to, 'OM records validation result for ' + J_I(new Date()), res);
-}
-
 function gen_report(matrix) {
   var ys = matrix.map(function(pair) {return pair[0] + pair[1];});
   //::Tripple->String
