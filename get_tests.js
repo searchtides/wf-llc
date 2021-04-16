@@ -3,7 +3,21 @@ function get_module_tests() {
       test_get_clients_map() &&
       test_get_status() &&
       test_get_teams_map() &&
-      test_get_dup_map();
+      test_get_dup_map() &&
+      test_get_dbs_map();
+}
+
+function test_get_dbs_map() {
+  return jUnit.test_case('', {
+    'test getting database map' : function() {
+      var sheet, res;
+      sheet = tt.ds('0.17');
+      res = get.dbs_map(sheet);
+      jUnit.assert_eq_num(2, keys(res).length);
+      jUnit.assert_eq('Searchtides', res['appITyYZgPYYMkPMg'].name);
+      jUnit.assert_eq('ST2.0', res['appVgRlu9Y3PLSSqx'].name);
+    }
+  });
 }
 
 function test_get_statuses_stats() {

@@ -37,4 +37,3 @@ FIELDS = [
   'TEAM'
 ];
 AIRTALBE_ENDPOINT = 'https://api.airtable.com/v0';
-DATABASE_ID = 'appITyYZgPYYMkPMg';

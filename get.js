@@ -2,6 +2,12 @@
 
 var get = {};
 
+get.dbs_map = function(sheet) {
+  var vh;
+  vh = ssa.get_vh(sheet);
+  return vh_to_hh(vh, 'id');
+};
+
 get.statuses_stats = function (checked_list) {
   var res, groups_map, group, xs;
   res = {};

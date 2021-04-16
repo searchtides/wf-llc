@@ -35,24 +35,36 @@ update.workbook = function(client, url, xs, formats) {
 };
 
 update.aggregated_data = function(sheet) {
-  var attempts, xs, cm_map, clients_map, succes, ys, teams_map, config;
+  var config, dbs_map, runs, succes, vh;
   config = get.config();
+  dbs_map = get.dbs_map(get.sheet('dbs'));
   sheet = sheet || get.sheet('aggregated data');
-  attempts = [];
-  attempts[0] = get.clients_map({config : config});
-  attempts[1] = get.cm_map({config : config});
-  attempts[2] = get.om_table({config : config});
-  attempts[3] = get.teams_map({config : config});
-  succes = attempts.every(function(attempt) {return attempt.right;});
+  runs = keys(dbs_map).map(function(db_id) {
+    var attempts, xs, cm_map, clients_map, succes, ys, teams_map, a;
+    a = {config : _.extend({}, config, {database_id : db_id})};
+    attempts = [];
+    attempts[0] = get.clients_map(a);
+    attempts[1] = get.cm_map(a);
+    attempts[2] = get.om_table(a);
+    attempts[3] = get.teams_map(a);
+    succes = attempts.every(function(attempt) {return attempt.right;});
+    if (succes) {
+      clients_map = attempts[0].right;
+      cm_map = attempts[1].right;
+      xs = attempts[2].right;
+      teams_map = attempts[3].right;
+      ys = replace.ids_with_values(xs, cm_map, clients_map, teams_map, dbs_map[db_id].name);
+      return {right : ys};
+    } else {
+      return {left : 'Error getting data from airtable'};
+    }
+  });
+  succes = runs.every(function(x) {return x.right;});
   if (succes) {
-    clients_map = attempts[0].right;
-    cm_map = attempts[1].right;
-    xs = attempts[2].right;
-    teams_map = attempts[3].right;
-    ys = replace.ids_with_values(xs, cm_map, clients_map, teams_map);
-    ssa.put_vh(sheet, ys);
-    return {right : ys.length};
+    vh = runs.map(function(x) {return x.right;}).reduce(function(a, b) {return a.concat(b);});
+    ssa.put_vh(sheet, vh);
+    return {right : true};
   } else {
-    return {left : 'Error getting data from airtable'};
+    return {left : 'some failures happened during fetching data from Airtable'};
   }
 };

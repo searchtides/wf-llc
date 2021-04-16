@@ -19,13 +19,14 @@ fetch.all = function(a) {
 
 //::{:table_name, :fields, :filter, :offset :config}->Either String Hashmap
 fetch.airtable = function(a) {
-  var url, table_name, options, res, h, result_map, fn, field, formula, fields, fields_str, offset, config, headers;
+  var url, table_name, options, res, h, result_map, fn, field, formula, fields, fields_str, offset, config, headers, database_id;
   table_name = a.table_name;
   formula = a.formula;
   fields = a.fields;
   offset = a.offset;
   config = a.config;
-  url = [AIRTALBE_ENDPOINT, DATABASE_ID, table_name].join('/') + '?';
+  database_id = config.database_id;
+  url = [AIRTALBE_ENDPOINT, database_id, table_name].join('/') + '?';
   if (fields) {
     fields_str = fields.map(function(field) {return encodeURI('fields[]=' + field);}).join('&');
     url += fields_str;
