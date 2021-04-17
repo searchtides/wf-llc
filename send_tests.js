@@ -31,6 +31,11 @@ function test_send_new_records_report() {
       var xs, daily_map, day;
       xs = ssa.get_vh(tt.ds('0.7')).map(transform.to_workbook_record);
       daily_map = gen.daily_map(xs);
+      day = '2021-04-07';
+      send.new_records_report(day, daily_map[day], 'yuriy@searchtides.com');
+
+      xs = ssa.get_vh(tt.ds('0.7')).map(transform.to_workbook_record);
+      daily_map = gen.daily_map(xs);
       day = '2021-02-24';
       send.new_records_report(day, daily_map[day], 'yuriy@searchtides.com');
     }

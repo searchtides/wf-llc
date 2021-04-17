@@ -19,7 +19,9 @@ function test_update_workbooks() {
 function test_update_aggregated_data () {
   return jUnit.test_case('', {
     'test updating aggregated data' : function() {
-      update.aggregated_data();
+      var res;
+      res = update.aggregated_data();
+      jUnit.assert_true(keys(res).length == 1);
     }
   });
 }
