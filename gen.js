@@ -67,15 +67,26 @@ gen.ls_report = function(g_map) {
 
 //::QaMap->Iso8601d->Html
 gen.qa_report = function(qa_map, day) {
-  var day_before, diff, xs, m, table_html, html, html_body;
+  var day_before, diff, xs, m, table_html, html, html_body, A, B, totals_by_group, diff_by_groups,
+    totals_by_valid, diff_by_valid, total, QAday;
   day_before = D_I(I_D(day) - 1);
   diff = gen.qa_days_diff(qa_map, day_before, day);
   if (keys(diff).length == 0) {return 'Previous day is missing in the QA map';}
-  xs = ['om', 'archive'].map(function(g) {
+  A = ['om', 'archive'];
+  B = ['valid', 'invalid'];
+  totals_by_group = A.map(function(g) {return B.map(function(s) {return qa_map[day][g][s];}).reduce(sum);});
+  diff_by_groups = A.map(function(g) {return B.map(function(s) {return diff[g][s];}).reduce(sum);});
+  totals_by_valid = B.map(function(s) {return A.map(function(g) {return qa_map[day][g][s];}).reduce(sum);});
+  diff_by_valid = B.map(function(s) {return A.map(function(g) {return diff[g][s];}).reduce(sum);});
+  total = totals_by_group.reduce(sum);
+  QAday = qa_map[day];
+  QAday.total = {valid : totals_by_valid[0], invalid : totals_by_valid[1]};
+  diff.total = {valid : diff_by_valid[0], invalid : diff_by_valid[1]};
+  xs = A.concat('total').map(function(g) {
     var ys;
-    ys = ['valid', 'invalid'].map(function(s) {
+    ys = B.map(function(s) {
       var res, value, sgn, s_sig, cls;
-      value = diff[g][s];
+      value = diff[g] ? diff[g][s] : 0;
       sgn = sign(value);
       if (s == 'valid') {
         if (sgn > 0) {cls = 'positive';} else if (sgn < 0) {cls = 'negative';} else {cls = 'neutral';};
@@ -83,7 +94,7 @@ gen.qa_report = function(qa_map, day) {
         if (sgn > 0) {cls = 'negative';} else if (sgn < 0) {cls = 'positive';} else {cls = 'neutral';};
       }
       s_sig = g_or_eq_sign(sgn);
-      res = qa_map[day][g][s];
+      res = QAday[g][s];
       res += wrap.in_tag('span', {class : 'superscript ' + cls}, '(' + s_sig + value + ')');
       return res;
     });
