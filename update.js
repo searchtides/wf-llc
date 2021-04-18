@@ -63,7 +63,7 @@ update.aggregated_data = function(sheet) {
   if (succes) {
     vh = runs.map(function(x) {return x.right;}).reduce(function(a, b) {return a.concat(b);});
     ssa.put_vh(sheet, vh);
-    return {right : true};
+    return {right : vh.length};
   } else {
     return {left : 'some failures happened during fetching data from Airtable'};
   }
