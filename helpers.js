@@ -84,14 +84,15 @@ function add_data_quality_snapshot() {
 
 function validate_master_data() {
   //saves results in proper script properties
-  var xs, ys, valid, invalid, sheet_for_invalid_data, sheet_for_valid_data, valid_q, invalid_q, res, total_q;
+  var xs, ys, valid, invalid, sheet_for_invalid_data, sheet_for_valid_data, valid_q, invalid_q, res, total_q, sort_fn;
   xs = ssa.get_vh(get.sheet('aggregated data'));
   total_q = xs.length;
 
-  invalid = _.filter(xs, invalid_predicate);
+  sort_fn = sorter_maker('Live Link Date');
+  invalid = _.filter(xs, invalid_predicate).sort(sort_fn);
   invalid_q = invalid.length;
 
-  valid = normalize.valid(_.reject(xs, invalid_predicate));
+  valid = normalize.valid(_.reject(xs, invalid_predicate)).sort(sort_fn);
   valid_q = valid.length;
 
   valid.forEach(function(x) {jUnit.assert_true(x['IP Location'].indexOf('Transaction') == -1);});
