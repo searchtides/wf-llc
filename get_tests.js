@@ -74,9 +74,10 @@ function test_get_status() {
 function test_get_om_table() {
   return jUnit.test_case('', {
     'test getting om table' : function() {
-      var res, config;
+      var res, config, a;
       config = get.config();
-      res = get.om_table({config : config});
+      a = {config : _.extend({}, config, {database_id : 'appVgRlu9Y3PLSSqx'})};
+      res = get.om_table(a);
       jUnit.assert_true(res.right);
     }
   });
