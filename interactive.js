@@ -63,7 +63,7 @@ function install_triggers() {
   var ss;
   remove_triggers();
   ss = SpreadsheetApp.getActive();
-  ScriptApp.newTrigger(TIME_DAEMON).timeBased().everyMinutes(1).create();
+  ScriptApp.newTrigger('daily').timeBased().everyMinutes(1).create();
   Browser.msgBox('All triggers have been installed under ' + Session.getActiveUser() + ' account');
 }
 
