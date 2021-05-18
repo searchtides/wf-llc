@@ -1,6 +1,13 @@
-//utils 0.4.0
+function measure(fn, args) {
+  var t1, t2, res;
+  t1 = new Date().getTime();
+  res = fn.apply(null, args);
+  t2 = new Date().getTime();
+  return {res : res, time : (t2 - t1)};
+}
 
 sign = function(x) {return x > 0 ? 1 : (x < 0 ? -1 : 0);};
+
 g_or_eq_sign = function(x) {return x >= 0 ? '+' : '-';};
 
 hash = function(h) {return get_md5(_.values(_.pick(h, TRIPPLE)).join(''));};
