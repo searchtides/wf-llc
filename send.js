@@ -10,11 +10,12 @@ send.link_statuses_report = function(day, xs, recepients) {
   MailApp.sendEmail(options);
 };
 
-send.qa_report = function(sheet, day, recepients) {
+send.qa_report = function(sheet, day, recepients, n, period_in_days) {
   var xs, qa_map, res, subject, options;
   xs = ssa.get_vh(sheet);
   qa_map = gen.qa_map(xs);
-  res = gen.qa_report(qa_map, day);
+  res = 'There are ' + n + ' invalid records for last ' + period_in_days + ' days<br><br>';
+  res += gen.qa_report(qa_map, day);
   subject =  'OM records validation result for ' + day;
   options = {to : recepients, subject : subject, htmlBody : res};
   MailApp.sendEmail(options);

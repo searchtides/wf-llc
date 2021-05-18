@@ -20,7 +20,7 @@ function test_send_qa_report() {
       var sheet, day;
       sheet = tt.ds('0.16');
       day = '2021-03-31';
-      send.qa_report(sheet, day,  'yuriy@searchtides.com');
+      send.qa_report(sheet, day,  'yuriy@searchtides.com', 5, 30);
     }
   });
 }

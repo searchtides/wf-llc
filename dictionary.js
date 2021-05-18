@@ -1,3 +1,5 @@
+RECENT_DAYS = 30;
+
 _ = Underscore.load();
 
 CHECKLOG_URL = 'https://docs.google.com/spreadsheets/d/1rCpB6il50FoQYGWtEocDgk9lUNZIbnwcXTw4yL-nJwI/edit?usp=sharing';
