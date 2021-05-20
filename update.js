@@ -14,7 +14,7 @@ update.workbooks = function(w_map, source_xs) {
 };
 
 update.workbook = function(client, url, xs, formats) {
-  var ss, sort_fn, access, sheet, zs, sheet_name;
+  var ss, sort_fn, access, sheet, zs, sheet_name, id, user, access_type;
   sheet_name = 'Live Links';
   try {
     ss = SpreadsheetApp.openByUrl(url);
@@ -24,13 +24,21 @@ update.workbook = function(client, url, xs, formats) {
     access = false;
   }
   if (access) {
-    sheet = ss.getSheetByName(sheet_name);
-    if (sheet == null) {
-      sheet = ss.insertSheet(sheet_name);
-      apply.formats(sheet, 1, 1, formats);
+    id = ss.getId();
+    user = Session.getActiveUser().getEmail();
+    access_type = DriveApp.getFileById(id).getAccess(user);
+    if (access_type == 'EDIT' || access_type == 'OWNER') {
+      sheet = ss.getSheetByName(sheet_name);
+      if (sheet == null) {
+        sheet = ss.insertSheet(sheet_name);
+        apply.formats(sheet, 1, 1, formats);
+      }
+      sort_fn = sorter_maker('Date');
+      ssa.put_vh(sheet, xs.sort(sort_fn));
+      log(client + ' workbook updated', 1);
+    } else {
+      log('workbook for client ' + client + ' not shared', 1);
     }
-    sort_fn = sorter_maker('Date');
-    ssa.put_vh(sheet, xs.sort(sort_fn));
   }
 };
 
