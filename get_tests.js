@@ -7,6 +7,18 @@ function get_module_tests() {
       test_get_dbs_map();
 }
 
+function test_get_data_from_db() {
+  return jUnit.test_case('', {
+    'test getting data from db' : function() {
+      var res, config, db_id, xs;
+      config = get.config();
+      db_id = 'appVgRlu9Y3PLSSqx';
+      res = get.data_from_db(config, db_id);
+      jUnit.assert_true(def(res.right));
+    }
+  });
+}
+
 function test_get_dbs_map() {
   return jUnit.test_case('', {
     'test getting database map' : function() {

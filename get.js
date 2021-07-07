@@ -2,6 +2,27 @@
 
 var get = {};
 
+get.data_from_db = function(config, db_id, db_name) {
+  var attempts, xs, cm_map, clients_map, succes, ys, teams_map, a;
+  a = {config : _.extend({}, config, {database_id : db_id})};
+  attempts = [];
+  attempts[0] = get.clients_map(a);
+  attempts[1] = get.cm_map(a);
+  attempts[2] = get.om_table(a);
+  attempts[3] = get.teams_map(a);
+  succes = attempts.every(function(attempt) {return attempt.right;});
+  if (succes) {
+    clients_map = attempts[0].right;
+    cm_map = attempts[1].right;
+    xs = attempts[2].right;
+    teams_map = attempts[3].right;
+    ys = replace.ids_with_values(xs, cm_map, clients_map, teams_map, db_name);
+    return {right : ys};
+  } else {
+    return {left : 'Error getting data from airtable'};
+  }
+};
+
 get.dbs_map = function(sheet) {
   var vh;
   vh = ssa.get_vh(sheet);
