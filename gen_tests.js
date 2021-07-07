@@ -1,5 +1,6 @@
 function gen_module_tests() {
-  return test_gen_daily_map() &&
+  return test_gen_qa_report() &&
+    test_gen_daily_map() &&
     test_gen_qa_map();
 }
 
