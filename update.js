@@ -43,13 +43,15 @@ update.workbook = function(client, url, xs, formats) {
 };
 
 update.aggregated_data = function(sheet) {
-  var config, dbs_map, runs, succes, vh;
+  var config, dbs_map, runs, succes, vh, xs, orm_run;
   config = get.config();
   dbs_map = get.dbs_map(get.sheet('dbs'));
   sheet = sheet || get.sheet('aggregated data');
-  runs = keys(dbs_map).map(function(db_id) {
+  xs = keys(dbs_map).map(function(db_id) {
     return get.data_from_db(config, db_id, dbs_map[db_id].name);
   });
+  orm_run = get.orm_data(config);
+  runs = xs.concat([orm_run]);
   succes = runs.every(function(x) {return x.right;});
   if (succes) {
     vh = runs.map(function(x) {return x.right;}).reduce(function(a, b) {return a.concat(b);});
