@@ -1,5 +1,15 @@
 var replace = {};
 
+replace.fields = function(h, fields_map) {
+  var xs;
+  xs = _.pairs(h).map(function(pair) {
+    var key;
+    key = fields_map[pair[0]] ? fields_map[pair[0]] : pair[0];
+    return [key, pair[1]];
+  });
+  return _.object(xs);
+};
+
 replace.ids_with_values = function(xs, cm_map, clients_map, teams_map, db_name) {
   var ys;
   ys = xs.map(function(x) {

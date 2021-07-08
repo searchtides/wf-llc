@@ -1,3 +1,5 @@
+normalize_url = function(s) {return s.replace(/https?:\/\//, '').replace('www.', '').split('/')[0];};
+
 function measure(fn, args) {
   var t1, t2, res;
   t1 = new Date().getTime();

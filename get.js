@@ -2,6 +2,49 @@
 
 var get = {};
 
+get.orm_data = function(config) {
+  var config, db_id, a, res, xs, attempts, success, clients_map, teams_map, ys;
+  db_id = 'app2V5WTjQKdVHil2';
+  a = {config : _.extend({}, config, {database_id : db_id})};
+  attempts = [];
+  attempts[0] = get.map('CLIENT', 'Name', a.config);
+  attempts[1] = get.teams_map(a);
+  attempts[2] = get.orm_table(a);
+  success = attempts.every(function(attempt) {return attempt.right;});
+  if (success) {
+    clients_map = attempts[0].right;
+    teams_map = attempts[1].right;
+    xs = attempts[2].right;
+    ys = replace.ids_with_values(xs, {}, clients_map, teams_map, 'ORM MASTER');
+    return {right : ys};
+  } else {
+    return {left : 'Error getting data from airtable (ORM MASTER)'};
+  }
+};
+
+get.orm_table = function(a) {
+  var table_name, fields, formula, xs, ys, fetch_attempt, config, a, db_id, fs, m, fields_map;
+  m = get.sheet('ORM').getDataRange().getValues();
+  fields_map = _.object(m);
+  fs = keys(fields_map);
+  table_name = 'OM';
+  fields = ['Status 1'].concat(fs);
+  formula = "{Status 1} = 'Link Published'";
+  fetch_attempt = fetch.all({table_name : table_name, fields : fields, formula : formula, config : a.config});
+  if (fetch_attempt.right) {
+    xs = fetch_attempt.right;
+    ys = xs.map(function(x) {
+      var h, domain;
+      domain = x.fields['Live Link'] ? normalize_url(x.fields['Live Link']) : '';
+      h = _.extend({}, x.fields, _.pick(x, 'id'), {'DOMAIN' : domain});
+      return replace.fields(h, fields_map);
+    });
+    return {right : ys};
+  } else {
+    return fetch_attempt;
+  }
+};
+
 get.data_from_db = function(config, db_id, db_name) {
   var attempts, xs, cm_map, clients_map, succes, ys, teams_map, a;
   a = {config : _.extend({}, config, {database_id : db_id})};
