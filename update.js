@@ -9,7 +9,13 @@ update.workbooks = function(w_map, source_xs) {
   formats = get.formats(range);
   for (client in w_map) {
     client_records = ys.filter(function(y) {return y['Client'] == client;});
-    update.workbook(client, w_map[client], client_records, formats);
+    try {
+      update.workbook(client, w_map[client], client_records, formats);
+      Utilities.sleep(1000);
+      SpreadsheetApp.flush();
+    } catch (e) {
+      log(e.message);
+    }
   }
 };
 
