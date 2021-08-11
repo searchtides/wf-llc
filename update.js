@@ -8,7 +8,7 @@ update.workbooks = function(w_map, source_xs) {
   range = get.sheet('template').getDataRange();
   formats = get.formats(range);
   for (client in w_map) {
-    client_records = ys.filter(function(y) {return y['Client'] == client;});
+    client_records = ys.filter(function(y) {return lc(y['Client']) == lc(client);});
     try {
       update.workbook(client, w_map[client], client_records, formats);
       Utilities.sleep(1000);
