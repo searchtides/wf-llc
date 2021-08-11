@@ -28,7 +28,6 @@ function checking_status_iteration() {
       var t = new Date();
       x = measure(get.status, [batch]);
       vh[idx_start + i]['Link Status'] = x.res;//!!!!!!!MUTATING INPUT ARRAY
-      check_log_sheet.appendRow([t, h['Client'], x.time, x.res, batch.url, batch.anchor, batch.target_link]);
       i++;
       t2 = new Date().getTime();
       diff = (t2 - t1);
