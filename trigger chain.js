@@ -44,11 +44,15 @@ function checking_status_iteration() {
 }
 
 function finish_iterations(n) {
-  var checked, vh, config;
+  var checked, vh, config, sheet, filter;
   config = get.config();
   log('all ' + n + ' links have been checked', 1);
   vh = get.vh('checklist');
-  ssa.put_vh(get.sheet('list checked'), vh);
+  sheet = get.sheet('list checked');
+  //next two lines is precaution to avoid issue https://issuetracker.google.com/issues/111316666
+  filter = sheet.getFilter();
+  if (filter) filter.remove();
+  ssa.put_vh(sheet, vh);
   refresh_records_in_groups();
   send.link_statuses_report(J_I(new Date()), vh, config.report_to);
   update.workbooks(null, vh);

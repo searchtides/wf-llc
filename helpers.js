@@ -31,13 +31,17 @@ function refresh_records_in_groups() {
 
 function create_checklist() {
   // only valid data from both sources
-  var valid, valid_archive, xs, ys, vh;
+  var valid, valid_archive, xs, ys, vh, sheet, filter;
   valid = ssa.get_vh(get.sheet('valid'));
   xs = valid.map(transform.to_workbook_record);
   valid_archive = ssa.get_vh(get.sheet('valid archives')).map(function(h) {return _.extend({}, h, {'TEAM' : ''});});
   ys = valid_archive.concat(xs);
   vh = ys.map(function(h) {return _.extend({}, h, {hash : hash(h)});});
-  ssa.put_vh(get.sheet('checklist'), vh);
+  sheet = get.sheet('checklist');
+  //next two lines is precaution to avoid issue https://issuetracker.google.com/issues/111316666
+  filter = sheet.getFilter();
+  if (filter) filter.remove();
+  ssa.put_vh(sheet, vh);
 }
 
 function collect_archives() {
