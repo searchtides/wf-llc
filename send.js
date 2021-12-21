@@ -1,5 +1,13 @@
 var send = {};
 
+send.clients_ls_report = function(day, html, client, recepients) {
+  var g_map, htmlBody, options, subject;
+  subject = 'Links statuses report on ' + day + ' for ' + client;
+  htmlBody = html;
+  options = {to : recepients, subject : subject, htmlBody : htmlBody};
+  MailApp.sendEmail(options);
+};
+
 send.link_statuses_report = function(day, xs, recepients) {
   var g_map, htmlBody, options, subject;
   subject = 'Links statuses report on ' + day;

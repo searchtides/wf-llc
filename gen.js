@@ -1,5 +1,26 @@
 var gen = {};
 
+//::[WorkbookRecord]->[LsClientReportRecord]
+gen.m_for_clients_ls_report = function(xs) {
+  var ys, zs, res, status;
+  ys = xs.filter(function(x) {return x['Link Status'] != 'LIVE';});
+  zs = ys.sort(function(x, y) {
+    var a, b;
+    a = x['Link Status'];
+    b = y['Link Status'];
+    return a > b ? 1 : (a < b ? -1 : 0);
+  });
+  res = [];
+  zs.forEach(function(z) {
+    if (status !== z['Link Status']) {
+      status = z['Link Status'];
+      res.push(['groupTitle', status]);
+    }
+    res.push(['data', z['Live Article URL']]);
+  });
+  return res;
+};
+
 gen.ls_report = function(g_map) {
   var m, htmlBody, html, design_map, groups;
   groups = ['total', 'green', 'non_green', 'dead', 'with_defects', 'unreachable'];

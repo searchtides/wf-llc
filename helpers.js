@@ -86,6 +86,7 @@ function add_data_quality_snapshot() {
   ssa.append_matrix(timed_q_matrix, dest_sheet, 1);
 }
 
+//::IO()->QaMap
 function validate_master_data() {
   //saves results in proper script properties
   var xs, ys, valid, invalid, sheet_for_invalid_data, sheet_for_valid_data, valid_q, invalid_q, res, total_q, sort_fn;

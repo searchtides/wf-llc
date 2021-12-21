@@ -2,6 +2,12 @@
 
 var get = {};
 
+get.clients_emails = function(sheet) {
+  var m;
+  m = sheet.getDataRange().getValues();
+  return m.map(function(r) {return {client : r[0], email : r[2]};}).filter(function(x) {return x.email;});
+};
+
 get.orm_data = function(config) {
   var config, db_id, a, res, xs, attempts, success, clients_map, teams_map, ys;
   db_id = 'app2V5WTjQKdVHil2';

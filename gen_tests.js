@@ -1,7 +1,22 @@
 function gen_module_tests() {
   return test_gen_qa_report() &&
     test_gen_daily_map() &&
-    test_gen_qa_map();
+    test_gen_qa_map() &&
+    test_gen_m_for_clients_ls_report();
+}
+
+function test_gen_m_for_clients_ls_report() {
+  return jUnit.test_case('', {
+    'test generating matrix for clients links status report' : function() {
+      var xs, map, res;
+      xs = ssa.get_vh(tt.ds('0.15'));
+      map = group.by_client(xs);
+      res = gen.m_for_clients_ls_report(map['BarBend']);
+      jUnit.assert_eq_num(4, res.length);
+      jUnit.assert_true('NOT LIVE', res[0][1]);
+      jUnit.assert_true('UNABLE TO CRAWL', res[0][3]);
+    }
+  });
 }
 
 function test_gen_qa_report() {

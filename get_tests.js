@@ -4,7 +4,18 @@ function get_module_tests() {
       test_get_status() &&
       test_get_teams_map() &&
       test_get_dup_map() &&
-      test_get_dbs_map();
+      test_get_dbs_map() &&
+      test_get_clients_emails();
+}
+
+function test_get_clients_emails() {
+  return jUnit.test_case('', {
+    'test getting clients email' : function() {
+      var res, config;
+      res = get.clients_emails(tt.ds('0.20'));
+      jUnit.assert_eq('yuriykochetkov@gmail.com', res[0].email);
+    }
+  });
 }
 
 function test_get_data_from_db() {
@@ -111,6 +122,7 @@ function test_get_cm_map() {
     'test getting cm map' : function() {
       var res, config;
       config = get.config();
+      config['database_id'] = 'appITyYZgPYYMkPMg';
       res = get.cm_map({config : config});
       jUnit.assert_true(res.right);
     }
