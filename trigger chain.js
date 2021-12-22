@@ -6,9 +6,9 @@ function start_checking_iterations() {
 }
 
 function checking_status_iteration() {
-  var vh, xs, ys, sheet, idx_start, i, h, batch, x, TIME_LIMIT, timeout, check_log_sheet, t1, t2, diff;
-  check_log_sheet = SpreadsheetApp.openByUrl(CHECKLOG_URL).getSheets()[0];
-  TIME_LIMIT = 25 * 60 * 1000; //ms
+  var vh, xs, ys, sheet, idx_start, i, h, batch, x, TIME_LIMIT, timeout, t1, t2, diff, config;
+  config = get.config();
+  TIME_LIMIT = config.iteration_limit * 60 * 1000; //ms
   remove_trigger("checking_status_iteration");
   sheet = get.sheet("checklist");
   vh = ssa.get_vh(sheet);
