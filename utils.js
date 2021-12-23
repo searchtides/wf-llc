@@ -89,6 +89,8 @@ takeWhile = function(p, xs) {
   return res;
 };
 
+concatA = function(a, b) {return a.concat(b);};
+
 //::Concatable->Concatable->Concatable
 concat = function(a, b) {
   if (_.isArray(a) && _.isArray(b)) {return a.concat(b);}

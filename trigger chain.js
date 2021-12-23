@@ -70,10 +70,17 @@ function finish_iterations(n) {
 }
 
 function send_ls_reports(vh) {
-  var xs, map, day;
+  var xs, map, day, config, html;
+  config = get.config();
   day = J_I(new Date());
   vh = vh || get.vh("list checked");
   map = group.by_client(vh);
+  html = render.pivot_ls_report(map);
+  try {
+    send.pivot_ls_report(day, html, config.report_to);
+  } catch (e) {
+    log(e.message);
+  }
   xs = get.clients_emails(get.sheet("workbooks map"));
   xs.forEach(function (x) {
     var html, m;

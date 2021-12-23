@@ -1,5 +1,13 @@
 var send = {};
 
+send.pivot_ls_report = function(day, html, recepients) {
+  var g_map, htmlBody, options, subject;
+  subject = 'Pivot statuses report on ' + day;
+  htmlBody = html;
+  options = {to : recepients, subject : subject, htmlBody : htmlBody};
+  MailApp.sendEmail(options);
+};
+
 send.clients_ls_report = function(day, html, client, recepients) {
   var g_map, htmlBody, options, subject;
   subject = 'Links statuses report on ' + day + ' for ' + client;
