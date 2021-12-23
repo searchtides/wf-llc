@@ -78,7 +78,7 @@ function send_ls_reports(vh) {
   xs.forEach(function (x) {
     var html, m;
     m = gen.m_for_clients_ls_report(map[x.client]);
-    html = render.clients_ls_report(m);
+    html = render.clients_ls_report(x.client, m);
     try {
       send.clients_ls_report(day, html, x.client, x.email);
     } catch (e) {
