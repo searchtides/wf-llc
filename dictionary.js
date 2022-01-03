@@ -1,3 +1,5 @@
+PLACEHOLDER_TEMPLATE = '{{link placeholder}}';
+
 TRIPPLE = ['Anchor Text', 'Target URL', 'Live Article URL'];
 
 RECENT_DAYS = 30;

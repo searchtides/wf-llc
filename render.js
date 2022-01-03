@@ -6,8 +6,8 @@ wrap.in_tag = function(tag, h, s) {
   return "<" + tag + " " + convert.to.attrs(h) + ">" + s + "</" + tag + ">";
 };
 
-render.pivot_ls_report = function(ls_map) {
-  var xs, css, head, body;
+render.pivot_ls_report = function(ls_map, day) {
+  var xs, css, head, body, ys, title, report_body;
   xs = keys(ls_map).map(function(name) {
     var m;
     m = gen.m_for_clients_ls_report(ls_map[name]);
@@ -15,7 +15,10 @@ render.pivot_ls_report = function(ls_map) {
   }).reduce(concatA);
   css = wrap.in_tag('style', {}, render.ls_css());
   head = wrap.in_tag('head', {}, css);
-  body = wrap.in_tag('body', {}, xs.join(''));
+  ys = [wrap.in_tag('h2', {}, 'Report on ' + day), PLACEHOLDER_TEMPLATE];
+  title = ys.join('');
+  report_body = '<dev>' + xs.join('') + '</dev>';
+  body = wrap.in_tag('body', {}, title + report_body);
   return wrap.in_tag('html',{},[head, body].join(''));
 };
 
