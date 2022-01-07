@@ -26,6 +26,7 @@ render.ls_css = function() {
   var s;
   s = '.groupTitle {margin-left: 10px; margin-top: 12px; margin-bottom: 2px; }';
   s += '.data {margin-left: 30px; margin-bottom: 2px; }';
+  s += '.date {margin-right: 6px;}';
   return s;
 };
 
@@ -41,7 +42,7 @@ render.ls_report_body = function(name, m) {
   var xs;
   xs = m.map(function(r) {
     var val;
-    val = r[0] == 'groupTitle' ? r[1] : wrap.in_tag('a', {href : r[1]}, r[1]);
+    val = r[0] == 'groupTitle' ? r[1] : wrap.in_tag('span', {class : 'date'}, r[2]) + wrap.in_tag('a', {href : r[1]}, r[1]);
     return wrap.in_tag('div', {class : r[0]}, val);
   });
   if (xs.length == 0) {

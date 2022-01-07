@@ -14,9 +14,9 @@ gen.m_for_clients_ls_report = function(xs) {
   zs.forEach(function(z) {
     if (status !== z['Link Status']) {
       status = z['Link Status'];
-      res.push(['groupTitle', status]);
+      res.push(['groupTitle', status, '']);
     }
-    res.push(['data', z['Live Article URL']]);
+    res.push(['data', z['Live Article URL'], [z['Year'], lz(z['Month']), lz(z['Day'])].join('-')]);
   });
   return res;
 };

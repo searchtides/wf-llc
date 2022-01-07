@@ -15,6 +15,7 @@ function test_gen_m_for_clients_ls_report() {
       jUnit.assert_eq_num(4, res.length);
       jUnit.assert_true('NOT LIVE', res[0][1]);
       jUnit.assert_true('UNABLE TO CRAWL', res[0][3]);
+      jUnit.assert_eq('2021-03-19', res[1][2]);
     }
   });
 }
