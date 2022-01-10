@@ -1,8 +1,8 @@
 var send = {};
 
-send.pivot_ls_report = function(day, html, recepients) {
+send.pivot_ls_report = function(date, html, recepients) {
   var g_map, htmlBody, options, subject;
-  subject = 'Pivot statuses report on ' + day;
+  subject = 'Pivot statuses report on ' + J_I(date);
   htmlBody = html;
   options = {to : recepients, subject : subject, htmlBody : htmlBody};
   MailApp.sendEmail(options);

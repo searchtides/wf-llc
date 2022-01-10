@@ -6,16 +6,17 @@ wrap.in_tag = function(tag, h, s) {
   return "<" + tag + " " + convert.to.attrs(h) + ">" + s + "</" + tag + ">";
 };
 
-render.pivot_ls_report = function(ls_map, day) {
+//::Hashmap->Date
+render.pivot_ls_report = function(ls_map, date) {
   var xs, css, head, body, ys, title, report_body;
   xs = keys(ls_map).map(function(name) {
     var m;
-    m = gen.m_for_clients_ls_report(ls_map[name]);
+    m = gen.m_for_clients_ls_report(ls_map[name], date);
     return render.ls_report_body(name, m);
   }).reduce(concatA);
   css = wrap.in_tag('style', {}, render.ls_css());
   head = wrap.in_tag('head', {}, css);
-  ys = [wrap.in_tag('h2', {}, 'Report on ' + day), PLACEHOLDER_TEMPLATE];
+  ys = [wrap.in_tag('h2', {}, 'Report on ' + J_I(date)), PLACEHOLDER_TEMPLATE];
   title = ys.join('');
   report_body = '<dev>' + xs.join('') + '</dev>';
   body = wrap.in_tag('body', {}, title + report_body);
@@ -27,6 +28,7 @@ render.ls_css = function() {
   s = '.groupTitle {margin-left: 10px; margin-top: 12px; margin-bottom: 2px; }';
   s += '.data {margin-left: 30px; margin-bottom: 2px; }';
   s += '.date {margin-right: 6px;}';
+  s += '.outdate {margin-right: 6px;color: red}';
   return s;
 };
 
@@ -41,9 +43,18 @@ render.clients_ls_report = function(name, m) {
 render.ls_report_body = function(name, m) {
   var xs;
   xs = m.map(function(r) {
-    var val;
-    val = r[0] == 'groupTitle' ? r[1] : wrap.in_tag('span', {class : 'date'}, r[2]) + wrap.in_tag('a', {href : r[1]}, r[1]);
-    return wrap.in_tag('div', {class : r[0]}, val);
+    var val, type;
+    if (r[0] == 'groupTitle') {
+      val = r[1];
+      type = r[0];
+    } else if (r[0] == 'outdated') {
+      val = wrap.in_tag('span', {class : 'outdate'}, r[2]) + wrap.in_tag('a', {href : r[1]}, r[1]);
+      type = 'data';
+    } else {
+      val = wrap.in_tag('span', {class : 'date'}, r[2]) + wrap.in_tag('a', {href : r[1]}, r[1]);
+      type = 'data';
+    }
+    return wrap.in_tag('div', {class : type}, val);
   });
   if (xs.length == 0) {
     xs = [wrap.in_tag('div', {class : 'groupTitle'}, 'No records')];

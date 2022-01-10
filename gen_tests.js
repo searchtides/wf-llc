@@ -8,9 +8,27 @@ function gen_module_tests() {
 function test_gen_m_for_clients_ls_report() {
   return jUnit.test_case('', {
     'test generating matrix for clients links status report' : function() {
-      var xs, map, res;
+      var xs, map, res, i, prev, cur, date;
       xs = ssa.get_vh(tt.ds('0.15'));
       map = group.by_client(xs);
+      date = new Date('2021/06/01');
+      res = gen.m_for_clients_ls_report(map['FanDuel'], date);
+      //assert rigth order of sorting
+      res.forEach(function(x, j) {
+        if (x[0] == 'groupTitle') {
+          i = 0;
+          return;
+        } else {
+          i += 1;
+          if (i == 1) {
+            return;
+          }
+        }
+        prev = res[j - 1][2];
+        cur = x[2];
+        jUnit.assert_true(prev >= cur);
+      });
+
       res = gen.m_for_clients_ls_report(map['BarBend']);
       jUnit.assert_eq_num(4, res.length);
       jUnit.assert_true('NOT LIVE', res[0][1]);

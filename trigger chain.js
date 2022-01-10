@@ -70,12 +70,12 @@ function finish_iterations(n) {
 }
 
 function send_ls_reports(vh) {
-  var xs, map, day, config, html, file, link;
+  var xs, map, date, config, html, file, link;
   config = get.config();
-  day = J_I(new Date());
+  date = new Date();
   vh = vh || get.vh("list checked");
   map = group.by_client(vh);
-  html = render.pivot_ls_report(map, day);
+  html = render.pivot_ls_report(map, date);
   file = DriveApp.getFileById(config.pivot_report_id);
   file.setContent(html);
   link = wrap.in_tag('a', {href : ScriptApp.getService().getUrl()}, 'Go to online report');
@@ -84,7 +84,7 @@ function send_ls_reports(vh) {
     html = html.replace(/<dev>.*<\/dev>/, wrap.in_tag('h3', {}, 'Report too big.'));
   };
   try {
-    send.pivot_ls_report(day, html, config.report_to);
+    send.pivot_ls_report(date, html, config.report_to);
   } catch (e) {
     log(e.message);
   }

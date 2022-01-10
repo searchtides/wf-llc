@@ -1,22 +1,33 @@
 var gen = {};
 
 //::[WorkbookRecord]->[LsClientReportRecord]
-gen.m_for_clients_ls_report = function(xs) {
+gen.m_for_clients_ls_report = function(xs, today) {
   var ys, zs, res, status;
   ys = xs.filter(function(x) {return x['Link Status'] != 'LIVE';});
   zs = ys.sort(function(x, y) {
     var a, b;
     a = x['Link Status'];
     b = y['Link Status'];
-    return a > b ? 1 : (a < b ? -1 : 0);
+    if (a > b) {
+      return 1;
+    } else if (a < b) {
+      return -1;
+    } else {
+      a = x['Date'];
+      b = y['Date'];
+      return a > b ? -1 : (a < b ? 1 : 0);
+    }
+
   });
   res = [];
   zs.forEach(function(z) {
+    var type;
     if (status !== z['Link Status']) {
       status = z['Link Status'];
       res.push(['groupTitle', status, '']);
     }
-    res.push(['data', z['Live Article URL'], [z['Year'], lz(z['Month']), lz(z['Day'])].join('-')]);
+    type = dnt.days_diff(z['Date'], today) > 186 ? 'outdated' : 'data';
+    res.push([type, z['Live Article URL'], [z['Year'], lz(z['Month']), lz(z['Day'])].join('-')]);
   });
   return res;
 };
