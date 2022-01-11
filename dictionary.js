@@ -24,7 +24,8 @@ FIELDS_MAP = {
   'Live Link Date' : 'Date',
   'CLIENT*' : 'Client',
   'id' : 'id',
-  'TEAM' : 'TEAM'
+  'TEAM' : 'TEAM',
+  'db_name' : 'db_name'
 };
 
 FIELDS = [

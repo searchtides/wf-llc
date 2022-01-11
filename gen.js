@@ -21,13 +21,16 @@ gen.m_for_clients_ls_report = function(xs, today) {
   });
   res = [];
   zs.forEach(function(z) {
-    var type;
+    var type, link, day, db_name;
     if (status !== z['Link Status']) {
       status = z['Link Status'];
-      res.push(['groupTitle', status, '']);
+      res.push(['groupTitle', status, '', '']);
     }
     type = dnt.days_diff(z['Date'], today) > 186 ? 'outdated' : 'data';
-    res.push([type, z['Live Article URL'], [z['Year'], lz(z['Month']), lz(z['Day'])].join('-')]);
+    link = z['Live Article URL'];
+    day = [z['Year'], lz(z['Month']), lz(z['Day'])].join('-');
+    db_name = z['db_name'];
+    res.push([type, link, day, db_name]);
   });
   return res;
 };

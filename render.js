@@ -28,7 +28,7 @@ render.ls_css = function() {
   s = '.groupTitle {margin-left: 10px; margin-top: 12px; margin-bottom: 2px; }';
   s += '.data {margin-left: 30px; margin-bottom: 2px; }';
   s += '.date {margin-right: 6px;}';
-  s += '.outdate {margin-right: 6px;color: red}';
+  s += '.outdated {margin-right: 6px;color: red}';
   return s;
 };
 
@@ -43,15 +43,18 @@ render.clients_ls_report = function(name, m) {
 render.ls_report_body = function(name, m) {
   var xs;
   xs = m.map(function(r) {
-    var val, type;
-    if (r[0] == 'groupTitle') {
+    var val, type, row_type, link, day, db_name, hyper_link, date;
+    row_type = r[0];
+    if (row_type == 'groupTitle') {
       val = r[1];
-      type = r[0];
-    } else if (r[0] == 'outdated') {
-      val = wrap.in_tag('span', {class : 'outdate'}, r[2]) + wrap.in_tag('a', {href : r[1]}, r[1]);
-      type = 'data';
+      type = row_type;
     } else {
-      val = wrap.in_tag('span', {class : 'date'}, r[2]) + wrap.in_tag('a', {href : r[1]}, r[1]);
+      link = r[1];
+      day = r[2];
+      db_name = wrap.in_tag('span', {class : 'db_name'}, r[3]);
+      hyper_link = wrap.in_tag('a', {href : link}, link);
+      date = wrap.in_tag('span', {class : row_type == 'outdated' ? row_type : 'date'}, day);
+      val = date + db_name + hyper_link ;
       type = 'data';
     }
     return wrap.in_tag('div', {class : type}, val);
