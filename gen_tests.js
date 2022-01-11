@@ -5,6 +5,26 @@ function gen_module_tests() {
     test_gen_m_for_clients_ls_report();
 }
 
+function test_gen_map_for_clients_ls_report() {
+  return jUnit.test_case('', {
+    'test generating matrix for clients links status report' : function() {
+      var xs, map, res, i, prev, cur, date, status, prev_day;
+      xs = ssa.get_vh(tt.ds('0.15'));
+      map = group.by_client(xs);
+      date = new Date('2021/06/01');
+      res = gen.map_for_clients_ls_report(map['FanDuel'], date);
+      jUnit.assert_eq_num(3, keys(res).length);
+      for (status in res) {
+        prev_day = res[status][0];
+        res[status].forEach(function(x) {
+          jUnit.assert_true(prev_day >= x.day);
+          prev_day = x.day;
+        });
+      }
+    }
+  });
+}
+
 function test_gen_m_for_clients_ls_report() {
   return jUnit.test_case('', {
     'test generating matrix for clients links status report' : function() {

@@ -1,5 +1,27 @@
 var gen = {};
 
+gen.map_for_clients_ls_report = function(xs, today) {
+  var res, ys, status;
+  res = {};
+  ys = xs.filter(function(x) {return x['Link Status'] != 'LIVE';});
+  ys.forEach(function(y) {
+    var status, type, link, day, db_name;
+    status = y['Link Status'];
+    blow(res, status, []);
+    type = dnt.days_diff(y['Date'], today) > 186 ? 'outdated' : 'normal';
+    link = y['Live Article URL'];
+    day = [y['Year'], lz(y['Month']), lz(y['Day'])].join('-');
+    db_name = y['db_name'];
+    res[status].push({type : type, link : link, day : day, db_name : db_name});
+  });
+  for (status in res) {
+    res[status] = res[status].sort(function(a, b) {
+      return a.day > b.day ? -1 : (a.day < b.day ? 1 : 0);
+    });
+  }
+  return res;
+};
+
 //::[WorkbookRecord]->[LsClientReportRecord]
 gen.m_for_clients_ls_report = function(xs, today) {
   var ys, zs, res, status;
