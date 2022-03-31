@@ -112,7 +112,10 @@ function validate_master_data() {
   //visualusation in details for humans
   var q_map = {'valid' : valid, 'invalid' : invalid};
   ['valid', 'invalid'].forEach(function(type) {
-    var sheet = get.sheet(type);
+    var sheet, filter;
+    sheet = get.sheet(type);
+    filter = sheet.getFilter();
+    if (filter) filter.remove();
     ssa.put_vh(sheet, q_map[type]);
     crop.sheet(sheet);
   });
