@@ -76,10 +76,7 @@ function send_ls_reports(vh) {
   vh = vh || get.vh("list checked");
   hidden_sheet = get.sheet('hidden');
   update.hidden(hidden_sheet, date, config.hide_period);
-  hidden = get.hidden(hidden_sheet, date, config.hide_period);
-  hidden_map = vh_to_h(hidden, 'id', 'date');
-  vh = vh.filter(function(x) {return hidden_map[x.id] == undefined && x['Link Status'] != 'LIVE';})
-    .sort(sort_date);
+  vh = get.not_live_unhidden(vh, hidden_sheet, date, config);
   map = group.by_client(vh);
   html = render.pivot_ls_report(map, date);
   link = wrap.in_tag('a', {href : ScriptApp.getService().getUrl()}, 'Go to online report');

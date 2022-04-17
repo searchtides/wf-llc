@@ -2,6 +2,14 @@
 
 var get = {};
 
+get.not_live_unhidden = function(vh, hidden_sheet, date, config) {
+  var hidden, hidden_map;
+  hidden = get.hidden(hidden_sheet, date, config.hide_period);
+  hidden_map = vh_to_h(hidden, 'id', 'date');
+  return vh.filter(function(x) {return hidden_map[x.id] == undefined && x['Link Status'] != 'LIVE';})
+    .sort(sort_date);
+};
+
 get.hidden = function(sheet, date, period) {
   return ssa.get_vh(sheet).filter(function(x) {
     var diff;
