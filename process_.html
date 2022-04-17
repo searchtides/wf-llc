@@ -1,0 +1,63 @@
+<script>
+
+var process = {};
+
+process.hide = function(id) {
+  console.log(id + ' hided');
+}
+
+process.data = function(a) {
+  var xs, ys, ids, clients_map, day, html, toIso;
+  toIso = function(x) {return [x['Year'], lz(x['Month']), lz(x['Day'])].join('-');}
+  xs = a.xs;
+  day = a.date;
+  xs.forEach(function(x) {
+    clog(toIso(x));
+  });
+  clients_map = group.by_client(xs);
+  ys = _.keys(clients_map).sort().map(function(name) {
+    var html, status_map;
+    html = wrap.in_tag('h3', {}, name);
+    status_map = group.by_status(clients_map[name]);
+    html += _.keys(status_map).sort()
+    .map(function(status) {
+      var html, tbody;
+      html = wrap.in_tag('div', {class:'groupTitle'}, status);
+      tbody = status_map[status]
+      .map(function(x) {
+        var iso8601d, db_name, url, tds, url, row, button, idx;
+        idx = x['idx'];
+        tds = [];
+        button = wrap.in_tag('td', {id:'btn' + idx, class:'btn'}, '□');
+        iso8601d = toIso(x);
+        db_name = x['db_name'];
+        url = x['Live Article URL'];
+        tds.push(button);
+        tds.push(wrap.in_tag('td', {class:x['type']}, iso8601d));
+        tds.push(wrap.in_tag('td', {}, db_name));
+        tds.push(wrap.in_tag('td', {}, link(url, url)));
+        row = wrap.in_tag('tr', {id: 'record' + idx}, tds.join(''));
+        return row;
+      }).join('');
+      html += wrap.in_tag('table', {class:'data'}, tbody);
+      return html;
+    }).join('<br/>');
+    return html;
+  });
+  html = wrap.in_tag('h2', {}, 'Report on ' + day);
+  html += ys.join('');
+  $('#app').html(html);
+  xs.forEach(function(x) {
+    $("#btn" + x['idx']).click(function() {
+      $(this).html('■');
+      $(this).closest('tr').children('td').wrapInner('<div />').children().slideUp(500, function() {
+        $(this).closest('tr').remove();
+    });
+    request({type:'hide', data:x.id});
+    return false;
+    });
+  });
+}
+
+</script>
+

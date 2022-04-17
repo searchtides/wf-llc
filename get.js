@@ -2,6 +2,14 @@
 
 var get = {};
 
+get.hidden = function(sheet, date, period) {
+  return ssa.get_vh(sheet).filter(function(x) {
+    var diff;
+    diff = dnt.days_diff(x.date, date);
+    return  diff < period;
+  });
+};
+
 get.clients_emails = function(sheet) {
   var m;
   m = sheet.getDataRange().getValues();

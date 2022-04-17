@@ -2,6 +2,20 @@ function update_module_tests() {
   return test_update_aggregated_data;
 }
 
+function test_update_hidden() {
+  return jUnit.test_case('', {
+    'test updating hidden' : function() {
+      var sheet, dest_sheet, date, period, xs;
+      date = new Date('2022/04/26');
+      sheet = tt.ds('0.21');
+      dest_sheet = tt.tb('0.3');
+      update.hidden(sheet, date, 7, dest_sheet);
+      xs = ssa.get_vh(dest_sheet);
+      jUnit.assert_eq_num(2, xs.length);
+    }
+  });
+}
+
 function test_update_workbooks() {
   return jUnit.test_case('', {
     'test updating workbooks' : function() {

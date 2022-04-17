@@ -70,14 +70,18 @@ function finish_iterations(n) {
 }
 
 function send_ls_reports(vh) {
-  var xs, map, date, config, html, file, link;
+  var xs, map, date, config, html, file, link, hidden_sheet, hidden, hidden_map;
   config = get.config();
   date = new Date();
   vh = vh || get.vh("list checked");
+  hidden_sheet = get.sheet('hidden');
+  update.hidden(hidden_sheet, date, config.hide_period);
+  hidden = get.hidden(hidden_sheet, date, config.hide_period);
+  hidden_map = vh_to_h(hidden, 'id', 'date');
+  vh = vh.filter(function(x) {return hidden_map[x.id] == undefined && x['Link Status'] != 'LIVE';})
+    .sort(sort_date);
   map = group.by_client(vh);
   html = render.pivot_ls_report(map, date);
-  file = DriveApp.getFileById(config.pivot_report_id);
-  file.setContent(html);
   link = wrap.in_tag('a', {href : ScriptApp.getService().getUrl()}, 'Go to online report');
   html = html.replace(PLACEHOLDER_TEMPLATE, link);
   if (html.length > 400000) {
@@ -91,10 +95,10 @@ function send_ls_reports(vh) {
   xs = get.clients_emails(get.sheet("workbooks map"));
   xs.forEach(function (x) {
     var html, m;
-    m = gen.m_for_clients_ls_report(map[x.client]);
+    m = gen.map_for_clients_ls_report(map[x.client], date);
     html = render.clients_ls_report(x.client, m);
     try {
-      send.clients_ls_report(day, html, x.client, x.email);
+      send.clients_ls_report(J_I(date), html, x.client, x.email);
     } catch (e) {
       log(e.message);
     }

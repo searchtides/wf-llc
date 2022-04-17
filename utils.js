@@ -1,3 +1,5 @@
+sort_date = function(a, b) {return a.Date > b.Date ? -1 : (a.Date < b.Date ? 1 : 0);};
+
 normalize_url = function(s) {return s.replace(/https?:\/\//, '').replace('www.', '').split('/')[0];};
 
 function measure(fn, args) {

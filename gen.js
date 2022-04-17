@@ -1,10 +1,9 @@
 var gen = {};
 
 gen.map_for_clients_ls_report = function(xs, today) {
-  var res, ys, status;
+  var res;
   res = {};
-  ys = xs.filter(function(x) {return x['Link Status'] != 'LIVE';});
-  ys.forEach(function(y) {
+  xs.forEach(function(y) {
     var status, type, link, day, db_name;
     status = y['Link Status'];
     blow(res, status, []);
@@ -13,46 +12,6 @@ gen.map_for_clients_ls_report = function(xs, today) {
     day = [y['Year'], lz(y['Month']), lz(y['Day'])].join('-');
     db_name = y['db_name'];
     res[status].push({type : type, link : link, day : day, db_name : db_name});
-  });
-  for (status in res) {
-    res[status] = res[status].sort(function(a, b) {
-      return a.day > b.day ? -1 : (a.day < b.day ? 1 : 0);
-    });
-  }
-  return res;
-};
-
-//::[WorkbookRecord]->[LsClientReportRecord]
-gen.m_for_clients_ls_report = function(xs, today) {
-  var ys, zs, res, status;
-  ys = xs.filter(function(x) {return x['Link Status'] != 'LIVE';});
-  zs = ys.sort(function(x, y) {
-    var a, b;
-    a = x['Link Status'];
-    b = y['Link Status'];
-    if (a > b) {
-      return 1;
-    } else if (a < b) {
-      return -1;
-    } else {
-      a = x['Date'];
-      b = y['Date'];
-      return a > b ? -1 : (a < b ? 1 : 0);
-    }
-
-  });
-  res = [];
-  zs.forEach(function(z) {
-    var type, link, day, db_name;
-    if (status !== z['Link Status']) {
-      status = z['Link Status'];
-      res.push(['groupTitle', status, '', '']);
-    }
-    type = dnt.days_diff(z['Date'], today) > 186 ? 'outdated' : 'data';
-    link = z['Live Article URL'];
-    day = [z['Year'], lz(z['Month']), lz(z['Day'])].join('-');
-    db_name = z['db_name'];
-    res.push([type, link, day, db_name]);
   });
   return res;
 };

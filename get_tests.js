@@ -5,7 +5,26 @@ function get_module_tests() {
       test_get_teams_map() &&
       test_get_dup_map() &&
       test_get_dbs_map() &&
-      test_get_clients_emails();
+      test_get_clients_emails() &&
+      test_get_hidden();
+}
+
+function test_get_hidden() {
+  return jUnit.test_case('', {
+    'test getting hidden' : function() {
+      var res, sheet, date, period;
+      date = new Date('2022/04/26');
+      sheet = tt.ds('0.21');
+      res = get.hidden(sheet, date, 1);
+      jUnit.assert_eq_num(0, res.length);
+      res = get.hidden(sheet, date, 6);
+      jUnit.assert_eq_num(1, res.length);
+      res = get.hidden(sheet, date, 7);
+      jUnit.assert_eq_num(2, res.length);
+      res = get.hidden(sheet, date, 10);
+      jUnit.assert_eq_num(5, res.length);
+    }
+  });
 }
 
 function test_get_clients_emails() {

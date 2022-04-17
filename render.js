@@ -9,7 +9,7 @@ wrap.in_tag = function(tag, h, s) {
 //::Hashmap->Date
 render.pivot_ls_report = function(ls_map, date) {
   var content, css, head, body, ys, title, report_body;
-  content = keys(ls_map).map(function(name) {
+  content = keys(ls_map).sort().map(function(name) {
     var map;
     map = gen.map_for_clients_ls_report(ls_map[name], date);
     return render.ls_report_body(name, map);

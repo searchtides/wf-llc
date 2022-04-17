@@ -2,7 +2,7 @@ function gen_module_tests() {
   return test_gen_qa_report() &&
     test_gen_daily_map() &&
     test_gen_qa_map() &&
-    test_gen_m_for_clients_ls_report();
+    test_gen_map_for_clients_ls_report();
 }
 
 function test_gen_map_for_clients_ls_report() {
@@ -13,47 +13,7 @@ function test_gen_map_for_clients_ls_report() {
       map = group.by_client(xs);
       date = new Date('2021/06/01');
       res = gen.map_for_clients_ls_report(map['FanDuel'], date);
-      jUnit.assert_eq_num(3, keys(res).length);
-      for (status in res) {
-        prev_day = res[status][0];
-        res[status].forEach(function(x) {
-          jUnit.assert_true(prev_day >= x.day);
-          prev_day = x.day;
-        });
-      }
-    }
-  });
-}
-
-function test_gen_m_for_clients_ls_report() {
-  return jUnit.test_case('', {
-    'test generating matrix for clients links status report' : function() {
-      var xs, map, res, i, prev, cur, date;
-      xs = ssa.get_vh(tt.ds('0.15'));
-      map = group.by_client(xs);
-      date = new Date('2021/06/01');
-      res = gen.m_for_clients_ls_report(map['FanDuel'], date);
-      //assert rigth order of sorting
-      res.forEach(function(x, j) {
-        if (x[0] == 'groupTitle') {
-          i = 0;
-          return;
-        } else {
-          i += 1;
-          if (i == 1) {
-            return;
-          }
-        }
-        prev = res[j - 1][2];
-        cur = x[2];
-        jUnit.assert_true(prev >= cur);
-      });
-
-      res = gen.m_for_clients_ls_report(map['BarBend']);
-      jUnit.assert_eq_num(4, res.length);
-      jUnit.assert_true('NOT LIVE', res[0][1]);
-      jUnit.assert_true('UNABLE TO CRAWL', res[0][3]);
-      jUnit.assert_eq('2021-03-19', res[1][2]);
+      jUnit.assert_eq_num(4, keys(res).length);
     }
   });
 }

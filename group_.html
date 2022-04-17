@@ -1,0 +1,29 @@
+<script>
+
+var group = {};
+
+group.by_status = function(xs) {
+  var res;
+  res = {};
+  xs.forEach(function(x) {
+    blow(res, x['Link Status'], []);
+    res[x['Link Status']].push(x);
+  });
+  return res;
+};
+
+
+//::[WorkbookRecord]->{<Client>:[WorkbookRecord]}
+group.by_client = function(xs) {
+  var res;
+  res = {};
+  xs.forEach(function(x) {
+    blow(res, x['Client'], []);
+    res[x['Client']].push(x);
+  });
+  return res;
+};
+
+</script>
+
+

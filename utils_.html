@@ -1,0 +1,89 @@
+<script>
+
+//::Url->String->String
+link = function(url, string) {
+  return '<a href="' + url + '">' + string + '</a>';
+};
+
+lz = function(x) {return ('00' + x).substr(-2);};
+
+function blow(h, prop, value) {
+  value = value;
+  if (h[prop] == undefined) h[prop] = value;
+  return h;
+}
+ 
+ concat = function(a, b){return a.toString() + b.toString();}
+
+  //::a->Bool
+  ndef = function(x){
+    if (typeof x == 'undefined') return true;
+    if (x == null) return true;
+    else return false;
+  };
+  
+  //::a->Bool
+  def = function(x){return !ndef(x)};//shortcut for == undefined;
+
+  clog = function(x){console.log(x)};
+  
+  MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  MONTHS_SHORT =  MONTHS.map(function(month_name){return month_name.substr(0,3)});
+  
+  function generate_form_table(xs){
+    var html;
+    xs.map(function(x){
+      var html;
+      html = wrap.in_tag('td', {}, x.label) + wrap.in_tag('td', {}, x.input_element);
+      html = wrap.in_tag('tr', {}, html);
+      });
+    return wrap.in_tag('table', {}, html);
+  }
+ 
+ 
+  function process_server_response(x) {
+    hide_loading_circle();
+    if (process[x.type] !== undefined) {process[x.type](x.data)}
+    else {console.log('unknown server response')};
+  }
+  
+  function request(x){
+    show_loading_circle();
+    google.script.run.withSuccessHandler(process_server_response).withFailureHandler(failure).server_request(x);
+  };
+  
+  function show_loading_circle() {
+    var div;
+    div  = document.getElementById('loader');
+    
+    div.style.visibility = 'visible';
+  }
+  
+  function hide_loading_circle() {
+    var div;
+    div  = document.getElementById('loader');
+    div.style.visibility = 'hidden';
+  }
+  
+  function show_msgbox(msg, color, timeout) {
+  var div;
+  console.log(msg);
+  div  = document.getElementById('msg');
+  if (color) {div.style.cssText = 'background-color:' + color;}
+  div.innerHTML = msg;
+  div.style.visibility = 'visible';
+  if (timeout) {setTimeout(hide_msgbox, timeout);}
+  }
+  
+  function hide_msgbox() {
+  var div;
+  div  = document.getElementById('msg');
+  div.innerHtml = '';
+  div.style.visibility = 'hidden';
+  }
+  
+  function failure(e) {
+  hide_loading_circle();
+  show_msgbox('Error: ' + e.message, 'red', 5000);
+  };
+</script>

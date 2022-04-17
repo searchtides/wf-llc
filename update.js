@@ -1,5 +1,15 @@
 var update = {};
 
+update.hidden = function(sheet, date, period, dest_sheet) {
+  var xs;
+  dest_sheet = dest_sheet || sheet;
+  xs = get.hidden(sheet, date, period);
+  ssa.clear_matrix(dest_sheet, 2, 1);
+  if (xs.length) {
+    ssa.put_vh(dest_sheet, xs);
+  }
+};
+
 //::WorkbooksMap->[GeneralRecord]->IO()
 update.workbooks = function(w_map, source_xs) {
   var w_map, client, xs, ys, ss, sheet, zs, range, formats, client_records;
