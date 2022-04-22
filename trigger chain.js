@@ -1,6 +1,12 @@
 function start_checking_iterations() {
+  var res;
   //set evironment vairables if necessary
-  //logging
+  res = update.domain_count_map();
+  if (res.right) {
+    log('domains map on server updated', 1);
+  } else {
+    log(res.left, 1);
+  }
   log("first checking iteration started", 1);
   checking_status_iteration();
 }

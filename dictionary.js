@@ -1,3 +1,5 @@
+DOMAINS_MAP_UPDATE_ENDPOINT = 'http://5.161.47.137:3000/update_domains_map';
+
 PLACEHOLDER_TEMPLATE = '{{link placeholder}}';
 
 TRIPPLE = ['Anchor Text', 'Target URL', 'Live Article URL'];

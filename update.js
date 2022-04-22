@@ -1,5 +1,26 @@
 var update = {};
 
+update.domain_count_map = function() {
+  var sheet, vh, domains_map, res, options, headers, payload;
+  sheet = get.sheet('aggregated data');
+  vh = ssa.get_vh(sheet);
+  domains_map = {};
+  vh.forEach(function(h, i) {
+    var domain;
+    domain = lc(h['DOMAIN']);
+    if (domain.length) {
+      blow(domains_map, domain, 0);
+      domains_map[domain] += 1;
+    }
+  });
+  headers = {
+    "Content-Type" : "application/json"
+  };
+  payload = JSON.stringify({'domainsMap' : domains_map});
+  options =  {method : 'post', headers : headers, muteHttpExceptions : true, payload : payload};
+  return http_req({url : DOMAINS_MAP_UPDATE_ENDPOINT, options : options});
+};
+
 update.hidden = function(sheet, date, period, dest_sheet) {
   var xs;
   dest_sheet = dest_sheet || sheet;
