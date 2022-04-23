@@ -2,7 +2,19 @@ function gen_module_tests() {
   return test_gen_qa_report() &&
     test_gen_daily_map() &&
     test_gen_qa_map() &&
-    test_gen_map_for_clients_ls_report();
+    test_gen_map_for_clients_ls_report() &&
+    test_gen_domains_clients_count_map();
+}
+
+function test_gen_domains_clients_count_map() {
+  return jUnit.test_case('', {
+    'test generating domains count map by client' : function() {
+      var xs, map, res, i, prev, cur, date, status, prev_day;
+      xs = ssa.get_vh(tt.ds('0.4'));
+      res = gen.domains_clients_count_map(xs);
+      jUnit.assert_eq_num(2, res['playersstats.com']['fanduel']);
+    }
+  });
 }
 
 function test_gen_map_for_clients_ls_report() {

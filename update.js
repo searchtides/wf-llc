@@ -4,15 +4,7 @@ update.domain_count_map = function() {
   var sheet, vh, domains_map, res, options, headers, payload;
   sheet = get.sheet('aggregated data');
   vh = ssa.get_vh(sheet);
-  domains_map = {};
-  vh.forEach(function(h, i) {
-    var domain;
-    domain = lc(h['DOMAIN']);
-    if (domain.length) {
-      blow(domains_map, domain, 0);
-      domains_map[domain] += 1;
-    }
-  });
+  domains_map = gen.domains_clients_count_map(vh);
   headers = {
     "Content-Type" : "application/json"
   };

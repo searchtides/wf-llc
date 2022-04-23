@@ -1,5 +1,21 @@
 var gen = {};
 
+gen.domains_clients_count_map = function(vh) {
+  var result_map;
+  result_map = {};
+  vh.forEach(function(h, i) {
+    var domain, client;
+    domain = lc(h['DOMAIN']);
+    client = lc(h['CLIENT*']);
+    if (domain.length) {
+      blow(result_map, domain, {});
+      blow(result_map[domain], client, 0);
+      result_map[domain][client] += 1;
+    }
+  });
+  return result_map;
+};
+
 gen.map_for_clients_ls_report = function(xs, today) {
   var res;
   res = {};
