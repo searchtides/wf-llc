@@ -24,9 +24,8 @@ get.clients_emails = function(sheet) {
   return m.map(function(r) {return {client : r[0], email : r[2]};}).filter(function(x) {return x.email;});
 };
 
-get.orm_data = function(config) {
-  var config, db_id, a, res, xs, attempts, success, clients_map, teams_map, ys;
-  db_id = 'app2V5WTjQKdVHil2';
+get.orm_data = function(config, db_id, db_name) {
+  var config, a, res, xs, attempts, success, clients_map, teams_map, ys;
   a = {config : _.extend({}, config, {database_id : db_id})};
   attempts = [];
   attempts[0] = get.map('CLIENT', 'Name', a.config);
@@ -37,10 +36,10 @@ get.orm_data = function(config) {
     clients_map = attempts[0].right;
     teams_map = attempts[1].right;
     xs = attempts[2].right;
-    ys = replace.ids_with_values(xs, {}, clients_map, teams_map, 'ORM MASTER');
+    ys = replace.ids_with_values(xs, {}, clients_map, teams_map, db_name);
     return {right : ys};
   } else {
-    return {left : 'Error getting data from airtable (ORM MASTER)'};
+    return {left : 'Error getting data from airtable (' + db_name + ')'};
   }
 };
 

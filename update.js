@@ -72,15 +72,19 @@ update.workbook = function(client, url, xs, formats) {
 };
 
 update.aggregated_data = function(sheet) {
-  var config, dbs_map, runs, succes, vh, xs, orm_run;
+  var config, ds, runs, succes, vh, xs, orm_runs, rs, orms;
   config = get.config();
-  dbs_map = get.dbs_map(get.sheet('dbs'));
+  ds = ssa.get_vh(get.sheet('dbs'));
+  rs = ds.filter(function(h) {return h['type'] == 'regular';});
+  orms = ds.filter(function(h) {return h['type'] == 'orm';});
   sheet = sheet || get.sheet('aggregated data');
-  xs = keys(dbs_map).map(function(db_id) {
-    return get.data_from_db(config, db_id, dbs_map[db_id].name);
+  xs = rs.map(function(h) {
+    return get.data_from_db(config, h.id, h.name);
   });
-  orm_run = get.orm_data(config);
-  runs = xs.concat([orm_run]);
+  orm_runs = orms.map(function(h) {
+    return get.orm_data(config, h.id, h.name);
+  });
+  runs = xs.concat(orm_runs);
   succes = runs.every(function(x) {return x.right;});
   if (succes) {
     vh = runs.map(function(x) {return x.right;}).reduce(function(a, b) {return a.concat(b);});
