@@ -8,7 +8,7 @@ process.hide = function(id) {
 };
 
 process.data = function() {
-  var sheet, xs, fields, today, THRESHOLD, hidden_sheet, config, vh;
+  var sheet, xs, fields, today, THRESHOLD, hidden_sheet, config, vh, cs_map;
   THRESHOLD = 186;
   config = get.config();
   today = new Date();
@@ -16,6 +16,8 @@ process.data = function() {
   sheet = get.sheet('list checked');
   fields = ['id', 'Month', 'Day', 'Year', 'db_name', 'Live Article URL', 'Client','Link Status', 'type', 'idx'];
   vh = ssa.get_vh(sheet);
+  cs_map = get.clients_statuses(get.sheet('client statutes'));
+  vh = extract.active(vh, cs_map);
   xs = get.not_live_unhidden(vh, hidden_sheet, today, config);
   xs = xs.map(function(x, i) {
     var type;
