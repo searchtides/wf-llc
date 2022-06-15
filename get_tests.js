@@ -13,10 +13,10 @@ function get_module_tests() {
 function test_get_clients_statuses() {
   return jUnit.test_case('', {
     'test getting clients statuses' : function() {
-      var res, config;
-      config = get.config();
-      res = get.clients_statuses(config);
-      jUnit.assert_true(def(res.right));
+      var res;
+      res = get.clients_statuses(tt.ds('0.23'));
+      jUnit.assert_eq('Internal', res['additional fanduel']['CMS MASTER']);
+      jUnit.assert_eq('ACTIVE', res['tvg']['VENDORS']);
     }
   });
 }

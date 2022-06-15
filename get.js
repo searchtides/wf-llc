@@ -2,36 +2,23 @@
 
 var get = {};
 
-get.clients_statuses = function(conf) {
-  var ds, fields_map, res, xs;
-  ds = ssa.get_vh(get.sheet('dbs'));
-  fields_map = get.fields_map(get.sheet('clients fields map'));
+get.clients_statuses = function(sheet) {
+  var m, res, clients, dbs;
+  m = sheet.getDataRange().getValues();
+  dbs = m.shift().slice(1);
+  clients = m.map(function(r) {return r[0];});
   res = {};
-  xs = ds.map(function(db) {
-    var fields, fetch_attempt, config, type;
-    type = db.type;
-    config = {airtable_token : conf.airtable_token, database_id : db.id};
-    fields = _.keys(fields_map[type]);
-    fetch_attempt = get.table(db.client_table, fields, config);
-    if (fetch_attempt.right) {
-      res[db.name] = fetch_attempt.right.map(function(x) {
-        var h = {};
-        _.keys(x).forEach(function(k) {
-          var new_k;
-          new_k = fields_map[type][k] ? lc(fields_map[type][k]) : k;
-          h[new_k] = x[k];
-        });
-        return h;
-      });
-      return true;
-    } else {
-      return false;
-    }
+  clients.forEach(function(client, i) {
+    dbs.forEach(function(db, j) {
+      var status;
+      status = m[i][j + 1];
+      if (status) {
+        blow(res, client, {});
+        res[client][db] = status;
+      }
+    });
   });
-  if (xs.every(function(x) {return x;})) {
-    return {right : res};
-  }
-  return {left : 'error during getting client status map from airtable'};
+  return res;
 };
 
 get.fields_map = function(sheet) {

@@ -1,5 +1,6 @@
 var gen = {};
 
+//::ClientStatuses->ClientStatusesMap
 gen.clients_status_map = function(h) {
   var res, db_name;
   res = {};

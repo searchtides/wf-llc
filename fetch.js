@@ -1,5 +1,36 @@
 var fetch = {};
 
+//::Config->[Database]->FieldsMap->ClientStatuses
+fetch.clients_statuses = function(conf, ds, fields_map) {
+  var res, xs;
+  res = {};
+  xs = ds.map(function(db) {
+    var fields, fetch_attempt, config, type;
+    type = db.type;
+    config = {airtable_token : conf.airtable_token, database_id : db.id};
+    fields = _.keys(fields_map[type]);
+    fetch_attempt = get.table(db.client_table, fields, config);
+    if (fetch_attempt.right) {
+      res[db.name] = fetch_attempt.right.map(function(x) {
+        var h = {};
+        _.keys(x).forEach(function(k) {
+          var new_k;
+          new_k = fields_map[type][k] ? lc(fields_map[type][k]) : k;
+          h[new_k] = x[k];
+        });
+        return h;
+      });
+      return true;
+    } else {
+      return false;
+    }
+  });
+  if (xs.every(function(x) {return x;})) {
+    return {right : res};
+  }
+  return {left : 'error during getting client status map from airtable'};
+};
+
 ////::{:table_name, :fields, :filter :config}->Either String Hashmap
 fetch.all = function(a) {
   var xs, res, offset, arg;
