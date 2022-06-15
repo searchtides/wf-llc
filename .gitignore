@@ -12,3 +12,4 @@ meta*
 !.clasp.json
 !.gitignore
 !.eslintrc.json
+dev_*
