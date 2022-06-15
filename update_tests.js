@@ -2,6 +2,16 @@ function update_module_tests() {
   return test_update_aggregated_data;
 }
 
+function test_update_client_statuses() {
+  return jUnit.test_case('', {
+    'test updating client statuses' : function() {
+      var config;
+      config = get.config();
+      update.client_statuses(config);
+    }
+  });
+}
+
 function test_update_hidden() {
   return jUnit.test_case('', {
     'test updating hidden' : function() {

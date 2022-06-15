@@ -1,6 +1,7 @@
 function daily() {
   var res, d, daily_map, yesterday, config, checked, today, threshold, xs;
   config = get.config();
+  update.client_statuses(config);
   today = new Date();
   yesterday = J_I(dnt.add_days(today, -1));
   res = update.aggregated_data();

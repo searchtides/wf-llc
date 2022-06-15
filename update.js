@@ -1,5 +1,18 @@
 var update = {};
 
+update.client_statuses = function(config) {
+  var ds, fields_map, fetch_attempt, cs_map;
+  ds = ssa.get_vh(get.sheet('dbs'));
+  fields_map = get.fields_map(get.sheet('clients fields map'));
+  fetch_attempt = fetch.clients_statuses(config, ds, fields_map);
+  if (fetch_attempt.left) {
+    log(fetch_attempt.left, 1);
+    return;
+  }
+  cs_map = gen.clients_status_map(fetch_attempt.right);
+  put.client_statuses(get.sheet('client statutes'), cs_map);
+};
+
 update.domain_count_map = function() {
   var sheet, vh, domains_map, res, options, headers, payload;
   sheet = get.sheet('aggregated data');

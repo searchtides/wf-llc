@@ -80,13 +80,8 @@ function send_ls_reports(vh) {
   config = get.config();
   date = new Date();
   vh = vh || get.vh("list checked");
-  fetch_attempt = get.clients_statuses(config);
-  if (fetch_attempt.right) {
-    cs_map = gen.clients_status_map(fetch_attempt.right);
-    vh = extract.active(vh, cs_map);
-  } else {
-    log(fetch_attempt.left, 1);
-  }
+  cs_map = get.clients_statuses(get.sheet('client statutes'));
+  vh = extract.active(vh, cs_map);
   hidden_sheet = get.sheet('hidden');
   update.hidden(hidden_sheet, date, config.hide_period);
   vh = get.not_live_unhidden(vh, hidden_sheet, date, config);
