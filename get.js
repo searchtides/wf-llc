@@ -2,6 +2,63 @@
 
 var get = {};
 
+get.clients_statuses = function(conf) {
+  var ds, fields_map, res, xs;
+  ds = ssa.get_vh(get.sheet('dbs'));
+  fields_map = get.fields_map(get.sheet('clients fields map'));
+  res = {};
+  xs = ds.map(function(db) {
+    var fields, fetch_attempt, config, type;
+    type = db.type;
+    config = {airtable_token : conf.airtable_token, database_id : db.id};
+    fields = _.keys(fields_map[type]);
+    fetch_attempt = get.table(db.client_table, fields, config);
+    if (fetch_attempt.right) {
+      res[db.name] = fetch_attempt.right.map(function(x) {
+        var h = {};
+        _.keys(x).forEach(function(k) {
+          var new_k;
+          new_k = fields_map[type][k] ? lc(fields_map[type][k]) : k;
+          h[new_k] = x[k];
+        });
+        return h;
+      });
+      return true;
+    } else {
+      return false;
+    }
+  });
+  if (xs.every(function(x) {return x;})) {
+    return {right : res};
+  }
+  return {left : 'error during getting client status map from airtable'};
+};
+
+get.fields_map = function(sheet) {
+  var vh, res;
+  vh = ssa.get_vh(sheet);
+  res = {};
+  vh.forEach(function(h) {
+    _.keys(h).forEach(function(k) {
+      blow(res, k, {});
+      res[k][h[k]] = h.regular;
+    });
+  });
+  return res;
+};
+
+get.table = function(table_name, fields, config) {
+  var fetch_attempt, xs, ys;
+  fetch_attempt = fetch.all({table_name : table_name, fields : fields, config : config});
+  if (fetch_attempt.right) {
+    xs = fetch_attempt.right;
+    ys = xs.map(function(x) { return _.extend({}, x.fields, _.pick(x, 'id'));});
+    return {right : ys};
+  } else {
+    return fetch_attempt;
+  }
+};
+
 get.not_live_unhidden = function(vh, hidden_sheet, date, config) {
   var hidden, hidden_map;
   hidden = get.hidden(hidden_sheet, date, config.hide_period);

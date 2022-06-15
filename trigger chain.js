@@ -76,10 +76,17 @@ function finish_iterations(n) {
 }
 
 function send_ls_reports(vh) {
-  var xs, map, date, config, html, file, link, hidden_sheet, hidden, hidden_map;
+  var xs, map, date, config, html, file, link, hidden_sheet, hidden, hidden_map, fetch_attempt, cs_map;
   config = get.config();
   date = new Date();
   vh = vh || get.vh("list checked");
+  fetch_attempt = get.clients_statuses(config);
+  if (fetch_attempt.right) {
+    cs_map = gen.clients_status_map(fetch_attempt.right);
+    vh = extract.active(vh, cs_map);
+  } else {
+    log(fetch_attempt.left, 1);
+  }
   hidden_sheet = get.sheet('hidden');
   update.hidden(hidden_sheet, date, config.hide_period);
   vh = get.not_live_unhidden(vh, hidden_sheet, date, config);

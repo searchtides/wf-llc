@@ -1,5 +1,20 @@
 var gen = {};
 
+gen.clients_status_map = function(h) {
+  var res, db_name;
+  res = {};
+  for (db_name in h) {
+    h[db_name].forEach(function(x) {
+      var client;
+      client = lc(x.client).trim();
+      blow(res, client, {});
+      blow(res[client], db_name, '');
+      res[client][db_name] = x.status;
+    });
+  }
+  return res;
+};
+
 gen.domains_clients_count_map = function(vh) {
   var result_map;
   result_map = {};

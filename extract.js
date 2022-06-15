@@ -1,5 +1,20 @@
 var extract = {};
 
+extract.active = function(vh, cs_map) {
+  return  vh.filter(function(h) {
+    var client, db, status;
+    client = lc(h['Client']);
+    db = h['db_name'];
+    status = cs_map[client][db];
+    if (db !== 'workbook archive' && status) {
+      if (lc(status) === 'active' || lc(status) === 'paused') {
+        return true;
+      }
+    }
+    return false;
+  });
+};
+
 extract.id = function(s) {return s.split('/')[5];};
 
 //::WorkbookRecrods->{:anchor :target_link :url}

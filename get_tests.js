@@ -6,7 +6,31 @@ function get_module_tests() {
       test_get_dup_map() &&
       test_get_dbs_map() &&
       test_get_clients_emails() &&
-      test_get_hidden();
+      test_get_hidden() &&
+      test_get_fields_map();
+}
+
+function test_get_clients_statuses() {
+  return jUnit.test_case('', {
+    'test getting clients statuses' : function() {
+      var res, config;
+      config = get.config();
+      res = get.clients_statuses(config);
+      jUnit.assert_true(def(res.right));
+    }
+  });
+}
+
+function test_get_fields_map() {
+  return jUnit.test_case('', {
+    'test getting fields map' : function() {
+      var res, config;
+      res = get.fields_map(tt.ds('0.22'));
+      jUnit.assert_eq_num(2, _.keys(res).length);
+      jUnit.assert_eq_num(2, _.keys(res.orm).length);
+      jUnit.assert_eq_num(2, _.keys(res.regular).length);
+    }
+  });
 }
 
 function test_get_hidden() {

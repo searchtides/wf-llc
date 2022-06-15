@@ -6,6 +6,19 @@ function gen_module_tests() {
     test_gen_domains_clients_count_map();
 }
 
+function test_gen_clients_status_map() {
+  return jUnit.test_case('', {
+    'test generating clients status map' : function() {
+      var h, res;
+      h = read_map('https://drive.google.com/file/d/1fsdcpIBe1HSJ5QO1G6iEBvZNU6mmS8Wl/view?usp=sharing');
+      res = gen.clients_status_map(h);
+      jUnit.assert_eq_num(32, _.keys(res).length);
+      jUnit.assert_eq('ACTIVE', res['creative metal']['VENDORS']);
+      jUnit.assert_eq('ACTIVE', res['creative metal']['LBT']);
+    }
+  });
+}
+
 function test_gen_domains_clients_count_map() {
   return jUnit.test_case('', {
     'test generating domains count map by client' : function() {
