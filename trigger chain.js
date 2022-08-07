@@ -71,7 +71,6 @@ function finish_iterations(n) {
   ssa.put_vh(sheet, vh);
   refresh_records_in_groups();
   send.link_statuses_report(J_I(new Date()), vh, config.report_to);
-  update.workbooks(null, vh);
   send_ls_reports(vh);
 }
 

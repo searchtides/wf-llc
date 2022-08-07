@@ -1,5 +1,5 @@
 function daily() {
-  var res, d, daily_map, yesterday, config, checked, today, threshold, xs;
+  var res, d, daily_map, yesterday, config, checked, today, threshold, xs, vh;
   config = get.config();
   update.client_statuses(config);
   today = new Date();
@@ -27,5 +27,7 @@ function daily() {
 
   create_checklist();//this guy creates new bunch of record to check, so previous state will be lost
   start_checking_iterations();
+  vh = get.vh("list checked");
+  update.workbooks(null, vh);
   //continuation in time
 }
