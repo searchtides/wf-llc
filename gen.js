@@ -7,10 +7,12 @@ gen.clients_status_map = function(h) {
   for (db_name in h) {
     h[db_name].forEach(function(x) {
       var client;
-      client = lc(x.client).trim();
-      blow(res, client, {});
-      blow(res[client], db_name, '');
-      res[client][db_name] = x.status;
+      if (x.client) {
+        client = lc(x.client).trim();
+        blow(res, client, {});
+        blow(res[client], db_name, '');
+        res[client][db_name] = x.status;
+      }
     });
   }
   return res;
