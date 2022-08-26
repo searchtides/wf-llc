@@ -26,8 +26,8 @@ function daily() {
   log('report about new records for ' + yesterday + ' sent', 1);
 
   create_checklist();//this guy creates new bunch of record to check, so previous state will be lost
-  start_checking_iterations();
-  vh = get.vh("list checked");
+  vh = get.vh("checklist");
   update.workbooks(null, vh);
+  start_checking_iterations();
   //continuation in time
 }
